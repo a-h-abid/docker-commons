@@ -1,0 +1,46 @@
+version: '3.8'
+
+networks:
+  common-net:
+    external: true
+
+volumes:
+  common-mysql-db:
+    name: 'common-mysql-db'
+  common-redis:
+    name: 'common-redis'
+
+services:
+  mysql:
+    image: 'mysql:8.0.21'
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-authentication-plugin=mysql_native_password
+    env_file:
+      - .envs/mysql.env
+    volumes:
+      - common-mysql-db:/var/lib/mysql
+      - ./sqls:/sqls
+    networks:
+      common-net:
+        aliases:
+          - common-mysql
+
+  adminer:
+    image: 'adminer:4.7.7'
+    env_file:
+      - .envs/adminer.env
+    depends_on:
+      - mysql
+    networks:
+      - common-net
+
+  redis:
+    image: bitnami/redis:6.0.4
+    env_file:
+      - .envs/redis.env
+    networks:
+      - common-net
+    volumes:
+      - common-redis:/bitnami/redis/data

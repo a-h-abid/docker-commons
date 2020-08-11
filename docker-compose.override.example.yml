@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+
+  mysql:
+    env_file:
+      - .envs/http-proxy.env
+    ports:
+      - 3306:3306
+
+  adminer:
+    env_file:
+      - .envs/http-proxy.env
+    ports:
+      - 8080:8080
+
+  redis:
+    env_file:
+      - .envs/http-proxy.env
+    ports:
+      - 6379:6379
