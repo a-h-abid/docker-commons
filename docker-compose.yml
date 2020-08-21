@@ -41,6 +41,8 @@ services:
     env_file:
       - .envs/redis.env
     networks:
-      - common-net
+      common-net:
+        aliases:
+          - common-redis
     volumes:
       - common-redis:/bitnami/redis/data
