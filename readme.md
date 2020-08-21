@@ -14,6 +14,7 @@ This project has my personal common docker scripts that can be used centrally or
 - Copy `./docker-compose.override.example.yml` file to `./docker-compose.override.yml` and then update it per your need.
 - Copy all example files in `./envs` to `./envs/[name].env` file and then update them per your need.
     - Ex. `./.envs/mysql.example.env` -> `./.envs/mysql.env`.
+- Run `docker network create common-net`
 - Run `docker-compose up -d`
 
 ## License
