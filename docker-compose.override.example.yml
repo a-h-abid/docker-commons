@@ -19,3 +19,9 @@ services:
       - .envs/http-proxy.env
     ports:
       - 6379:6379
+
+  minio:
+    env_file:
+      - .envs/http-proxy.env
+    ports:
+     - 9000:9000

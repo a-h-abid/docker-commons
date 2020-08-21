@@ -9,6 +9,10 @@ volumes:
     name: 'common-mysql-db'
   common-redis:
     name: 'common-redis'
+  common-minio-data:
+    name: 'common-minio-data'
+  common-minio-config:
+    name: 'common-minio-config'
 
 services:
   mysql:
@@ -46,3 +50,17 @@ services:
           - common-redis
     volumes:
       - common-redis:/bitnami/redis/data
+
+  minio:
+    image: minio/minio:RELEASE.2020-06-12T00-06-19Z
+    command: ["minio", "server", "/data"]
+    restart: "no"
+    env_file:
+      - .envs/minio.env
+    networks:
+      common-net:
+        aliases:
+          - common-minio
+    volumes:
+      - common-minio-data:/data
+      - common-minio-config:/root/.minio
