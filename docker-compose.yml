@@ -9,10 +9,14 @@ volumes:
     name: 'common-mysql-db'
   common-redis:
     name: 'common-redis'
+  common-minio-data:
+    name: 'common-minio-data'
+  common-minio-config:
+    name: 'common-minio-config'
 
 services:
   mysql:
-    image: 'mysql:8.0.21'
+    image: 'mysql:${MYSQL_IMAGE_TAG}'
     command:
       - --character-set-server=utf8mb4
       - --collation-server=utf8mb4_unicode_ci
@@ -28,7 +32,7 @@ services:
           - common-mysql
 
   adminer:
-    image: 'adminer:4.7.7'
+    image: 'adminer:${ADMINER_IMAGE_TAG}'
     env_file:
       - .envs/adminer.env
     depends_on:
@@ -37,10 +41,26 @@ services:
       - common-net
 
   redis:
-    image: bitnami/redis:6.0.4
+    image: bitnami/redis:${REDIS_IMAGE_TAG}
     env_file:
       - .envs/redis.env
     networks:
-      - common-net
+      common-net:
+        aliases:
+          - common-redis
     volumes:
       - common-redis:/bitnami/redis/data
+
+  minio:
+    image: minio/minio:${MINIO_IMAGE_TAG}
+    command: ["minio", "server", "/data"]
+    restart: "no"
+    env_file:
+      - .envs/minio.env
+    networks:
+      common-net:
+        aliases:
+          - common-minio
+    volumes:
+      - common-minio-data:/data
+      - common-minio-config:/root/.minio
