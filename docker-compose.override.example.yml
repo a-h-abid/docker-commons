@@ -25,3 +25,9 @@ services:
       - .envs/http-proxy.env
     ports:
      - 9000:9000
+
+  rabbitmq:
+    env_file:
+      - .envs/http-proxy.env
+    ports:
+      - 15672:15672
