@@ -1,2 +1,9 @@
+/.idea
+/.vscode
+/.vagrant
+*.sublime-project
+*.sublime-workspace
+/nbproject
+
 .env
 docker-compose.override.yml
