@@ -5,5 +5,7 @@
 *.sublime-workspace
 /nbproject
 
+.DS_Store
+
 .env
 docker-compose.override.yml
