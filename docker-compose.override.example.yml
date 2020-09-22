@@ -20,6 +20,18 @@ services:
     ports:
       - 6379:6379
 
+  redis-slave:
+    env_file:
+      - .envs/http-proxy.env
+    ports:
+      - 6380:6379
+
+  redis-sentinel:
+    env_file:
+      - .envs/http-proxy.env
+    ports:
+      - 26379:26379
+
   minio:
     env_file:
       - .envs/http-proxy.env
