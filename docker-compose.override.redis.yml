@@ -1,0 +1,18 @@
+version: '3.8'
+
+volumes:
+  common-redis:
+    name: 'common-redis'
+
+services:
+
+  redis:
+    image: bitnami/redis:${REDIS_IMAGE_TAG}
+    env_file:
+      - .envs/redis.env
+    networks:
+      common-net:
+        aliases:
+          - common-redis
+    volumes:
+      - common-redis:/bitnami

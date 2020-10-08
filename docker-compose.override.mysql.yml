@@ -1,0 +1,32 @@
+version: '3.8'
+
+volumes:
+  common-mysql-db:
+    name: 'common-mysql-db'
+
+services:
+
+  mysql:
+    image: 'mysql:${MYSQL_IMAGE_TAG}'
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-authentication-plugin=mysql_native_password
+    env_file:
+      - .envs/mysql.env
+    volumes:
+      - common-mysql-db:/var/lib/mysql
+      - ./mysql/sqls:/sqls
+    networks:
+      common-net:
+        aliases:
+          - common-mysql
+
+  adminer:
+    image: 'adminer:${ADMINER_IMAGE_TAG}'
+    env_file:
+      - .envs/adminer.env
+    depends_on:
+      - mysql
+    networks:
+      - common-net

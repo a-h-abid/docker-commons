@@ -1,0 +1,36 @@
+version: '3.8'
+
+volumes:
+  common-redis-slave:
+    name: 'common-redis-slave'
+  common-redis-sentinel:
+    name: 'common-redis-sentinel'
+
+services:
+
+  redis-slave:
+    image: bitnami/redis:${REDIS_IMAGE_TAG}
+    env_file:
+      - .envs/redis-slave.env
+    depends_on:
+      - redis
+    networks:
+      common-net:
+        aliases:
+          - common-redis-slave
+    volumes:
+      - common-redis-slave:/bitnami
+
+  redis-sentinel:
+    image: bitnami/redis-sentinel:${REDIS_IMAGE_TAG}
+    env_file:
+      - .envs/redis-sentinel.env
+    depends_on:
+      - redis
+      - redis-slave
+    networks:
+      common-net:
+        aliases:
+          - common-redis-sentinel
+    volumes:
+      - common-redis-sentinel:/bitnami

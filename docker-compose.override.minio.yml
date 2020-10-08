@@ -1,0 +1,23 @@
+version: '3.8'
+
+volumes:
+  common-minio-data:
+    name: 'common-minio-data'
+  common-minio-config:
+    name: 'common-minio-config'
+
+services:
+
+  minio:
+    image: minio/minio:${MINIO_IMAGE_TAG}
+    command: ["minio", "server", "/data"]
+    restart: "no"
+    env_file:
+      - .envs/minio.env
+    networks:
+      common-net:
+        aliases:
+          - common-minio
+    volumes:
+      - common-minio-data:/data
+      - common-minio-config:/root/.minio
