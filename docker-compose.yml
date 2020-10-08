@@ -31,7 +31,7 @@ services:
       - .envs/mysql.env
     volumes:
       - common-mysql-db:/var/lib/mysql
-      - ./sqls:/sqls
+      - ./mysql/sqls:/sqls
     networks:
       common-net:
         aliases:
