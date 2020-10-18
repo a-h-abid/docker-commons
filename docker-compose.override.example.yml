@@ -38,6 +38,10 @@ services:
     ports:
      - 9000:9000
 
+  minio-client:
+    volumes:
+      - ./minio/policies:/minio-policies
+
   rabbitmq:
     env_file:
       - .envs/http-proxy.env

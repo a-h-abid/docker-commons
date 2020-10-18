@@ -1,0 +1,2 @@
+*.policy.json
+!example.policy.json
