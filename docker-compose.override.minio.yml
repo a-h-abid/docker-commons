@@ -5,6 +5,8 @@ volumes:
     name: 'common-minio-data'
   common-minio-config:
     name: 'common-minio-config'
+  common-minio-client-config:
+    name: 'common-minio-client-config'
 
 services:
 
@@ -21,3 +23,14 @@ services:
     volumes:
       - common-minio-data:/data
       - common-minio-config:/root/.minio
+
+  minio-client:
+    image: minio/mc:${MINIO_CLIENT_IMAGE_TAG}
+    command: ["--version"]
+    restart: "no"
+    depends_on:
+      - minio
+    networks:
+      - common-net
+    volumes:
+      - common-minio-client-config:/root/.mc
