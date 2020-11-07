@@ -1,6 +1,6 @@
-ARG EK_IMAGE_TAG=7.9.3
+ARG ELASTICSEARCH_KIBANA_IMAGE_TAG=7.9.3
 
-FROM docker.elastic.co/elasticsearch/elasticsearch:${EK_IMAGE_TAG}
+FROM docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_KIBANA_IMAGE_TAG}
 
 ARG ELASTICSEARCH_CERTS_DIR=/usr/share/elasticsearch/config/certificates
 
