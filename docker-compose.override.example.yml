@@ -6,37 +6,37 @@ services:
     env_file:
       - .envs/http-proxy.env
     ports:
-      - 3306:3306
+      - ${MYSQL_PUBLISH_PORT}:3306
 
   adminer:
     env_file:
       - .envs/http-proxy.env
     ports:
-      - 8080:8080
+      - ${ADMINER_PUBLISH_PORT}:8080
 
   redis:
     env_file:
       - .envs/http-proxy.env
     ports:
-      - 6379:6379
+      - ${REDIS_PUBLISH_PORT}:6379
 
   redis-slave:
     env_file:
       - .envs/http-proxy.env
     ports:
-      - 6380:6379
+      - ${REDIS_SLAVE_PUBLISH_PORT}:6379
 
   redis-sentinel:
     env_file:
       - .envs/http-proxy.env
     ports:
-      - 26379:26379
+      - ${REDIS_SENTINEL_PUBLISH_PORT}:26379
 
   minio:
     env_file:
       - .envs/http-proxy.env
     ports:
-     - 9000:9000
+     - ${MINIO_PUBLISH_PORT}:9000
 
   minio-client:
     volumes:
@@ -46,4 +46,16 @@ services:
     env_file:
       - .envs/http-proxy.env
     ports:
-      - 15672:15672
+      - ${RABBITMQ_PUBLISH_PORT}:15672
+
+  elasticsearch:
+    env_file:
+      - .envs/http-proxy.env
+    ports:
+      - "${ELASTICSEARCH_PUBLISH_PORT}:9200"
+
+  kibana:
+    env_file:
+      - .envs/http-proxy.env
+    ports:
+      - "${KIBANA_PUBLISH_PORT}:5601"

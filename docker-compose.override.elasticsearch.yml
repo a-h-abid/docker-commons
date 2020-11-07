@@ -1,0 +1,56 @@
+version: '3.8'
+
+volumes:
+  elasticsearch-data:
+    driver: local
+  elasticsearch-logs:
+    driver: local
+
+services:
+
+  elasticsearch:
+    image: ${COMPOSE_PROJECT_NAME}_elasticsearch
+    build:
+      context: ${DOCKER_BUILD_CONTEXT_DIR}
+      dockerfile: ./elasticsearch/elasticsearch.Dockerfile
+    ports:
+      - "${ELASTICSEARCH_PUBLISH_PORT}:9200"
+    volumes:
+      - ${ELASTICSEARCH_DATA_VOLUME}:/usr/share/elasticsearch/data/
+      - ${ELASTICSEARCH_LOGS_VOLUME}:/usr/share/elasticsearch/logs/
+    networks:
+      common-net:
+        aliases:
+          - common-elasticsearch
+    restart: unless-stopped
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+      memlock:
+        soft: -1
+        hard: -1
+    env_file:
+      - .envs/elasticsearch.env
+    healthcheck:
+      test: curl --cacert ${ELASTICSEARCH_CERTS_DIR}/ca/ca.crt -s https://localhost:9200 > /dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 30s
+      timeout: 10s
+      retries: 5
+
+  kibana:
+    image: ${COMPOSE_PROJECT_NAME}_kibana
+    build:
+      context: ${DOCKER_BUILD_CONTEXT_DIR}
+      dockerfile: ./kibana/kibana.Dockerfile
+    ports:
+      - "${KIBANA_PUBLISH_PORT}:5601"
+    networks:
+      common-net:
+        aliases:
+          - common-kibana
+    restart: unless-stopped
+    env_file:
+      - .envs/kibana.env
+    depends_on:
+      - elasticsearch
