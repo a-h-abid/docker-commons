@@ -12,8 +12,6 @@ services:
     image: ${COMPOSE_PROJECT_NAME}_elasticsearch
     build:
       dockerfile: ./elasticsearch/elasticsearch.Dockerfile
-    ports:
-      - "${ELASTICSEARCH_PUBLISH_PORT}:9200"
     volumes:
       - ${ELASTICSEARCH_DATA_VOLUME}:/usr/share/elasticsearch/data/
       - ${ELASTICSEARCH_LOGS_VOLUME}:/usr/share/elasticsearch/logs/
@@ -41,8 +39,6 @@ services:
     image: ${COMPOSE_PROJECT_NAME}_kibana
     build:
       dockerfile: ./kibana/kibana.Dockerfile
-    ports:
-      - "${KIBANA_PUBLISH_PORT}:5601"
     networks:
       common-net:
         aliases:
