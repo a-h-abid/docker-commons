@@ -11,7 +11,6 @@ services:
   elasticsearch:
     image: ${COMPOSE_PROJECT_NAME}_elasticsearch
     build:
-      context: ${DOCKER_BUILD_CONTEXT_DIR}
       dockerfile: ./elasticsearch/elasticsearch.Dockerfile
     ports:
       - "${ELASTICSEARCH_PUBLISH_PORT}:9200"
@@ -41,7 +40,6 @@ services:
   kibana:
     image: ${COMPOSE_PROJECT_NAME}_kibana
     build:
-      context: ${DOCKER_BUILD_CONTEXT_DIR}
       dockerfile: ./kibana/kibana.Dockerfile
     ports:
       - "${KIBANA_PUBLISH_PORT}:5601"
