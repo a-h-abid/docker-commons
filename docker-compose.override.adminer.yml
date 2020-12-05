@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+
+  adminer:
+    image: 'adminer:${ADMINER_IMAGE_TAG}'
+    env_file:
+      - .envs/adminer.env
+    networks:
+      - common-net

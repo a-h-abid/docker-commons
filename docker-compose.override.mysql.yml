@@ -21,12 +21,3 @@ services:
       common-net:
         aliases:
           - common-mysql
-
-  adminer:
-    image: 'adminer:${ADMINER_IMAGE_TAG}'
-    env_file:
-      - .envs/adminer.env
-    depends_on:
-      - mysql
-    networks:
-      - common-net
