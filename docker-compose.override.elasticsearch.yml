@@ -11,7 +11,8 @@ services:
   elasticsearch:
     image: ${COMPOSE_PROJECT_NAME}_elasticsearch
     build:
-      dockerfile: ./elasticsearch/elasticsearch.Dockerfile
+      context: ${DOCKER_BUILD_CONTEXT_DIR}
+      dockerfile: elasticsearch/elasticsearch.Dockerfile
     volumes:
       - ${ELASTICSEARCH_DATA_VOLUME}:/usr/share/elasticsearch/data/
       - ${ELASTICSEARCH_LOGS_VOLUME}:/usr/share/elasticsearch/logs/
@@ -38,7 +39,8 @@ services:
   kibana:
     image: ${COMPOSE_PROJECT_NAME}_kibana
     build:
-      dockerfile: ./kibana/kibana.Dockerfile
+      context: ${DOCKER_BUILD_CONTEXT_DIR}
+      dockerfile: kibana/kibana.Dockerfile
     networks:
       common-net:
         aliases:
