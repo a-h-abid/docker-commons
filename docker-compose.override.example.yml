@@ -3,6 +3,11 @@ version: '3.8'
 services:
 
   mysql:
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_unicode_ci
+      - --default-authentication-plugin=mysql_native_password
+      - --local-infile=1
     env_file:
       - .envs/http-proxy.env
     ports:
