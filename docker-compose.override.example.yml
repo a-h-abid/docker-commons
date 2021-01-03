@@ -59,3 +59,7 @@ services:
       - .envs/http-proxy.env
     ports:
       - "${KIBANA_PUBLISH_PORT}:5601"
+
+  mailhog:
+    ports:
+      - "${MAILHOG_PUBLISH_PORT}:8025"

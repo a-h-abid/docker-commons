@@ -1,0 +1,10 @@
+version: '3.8'
+
+services:
+
+  mailhog:
+    image: 'mailhog/mailhog:${MAILHOG_IMAGE_TAG}'
+    networks:
+      common-net:
+        aliases:
+          - common-mailhog
