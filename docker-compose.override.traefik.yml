@@ -1,13 +1,16 @@
 version: '3.8'
 
+networks:
+  common-traefik-net:
+    external: true
+
 services:
 
   traefik:
     image: traefik:${TRAEFIK_IMAGE_TAG}
-    command: --api.insecure=true --providers.docker
+    labels:
+      - "traefik.enable=true"
     networks:
-      common-net:
-        aliases:
-          - common-traefik
+      - common-traefik-net
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
