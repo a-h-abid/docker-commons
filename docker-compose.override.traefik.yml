@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+
+  traefik:
+    image: traefik:${TRAEFIK_IMAGE_TAG}
+    command: --api.insecure=true --providers.docker
+    networks:
+      common-net:
+        aliases:
+          - common-traefik
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock

@@ -68,3 +68,10 @@ services:
   mailhog:
     ports:
       - "${MAILHOG_PUBLISH_PORT}:8025"
+
+  traefik:
+    env_file:
+      - .envs/traefik.env
+    ports:
+      - "80:80"
+      - "8080:8080"
