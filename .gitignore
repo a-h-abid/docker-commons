@@ -4,6 +4,7 @@
 *.sublime-project
 *.sublime-workspace
 /nbproject
+/*.code-workspace
 
 .DS_Store
 
