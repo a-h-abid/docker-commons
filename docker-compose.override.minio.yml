@@ -3,8 +3,6 @@ version: '3.8'
 volumes:
   common-minio-data:
     name: 'common-minio-data'
-  common-minio-config:
-    name: 'common-minio-config'
   common-minio-client-config:
     name: 'common-minio-client-config'
 
@@ -22,7 +20,6 @@ services:
           - common-minio
     volumes:
       - common-minio-data:/data
-      - common-minio-config:/root/.minio
 
   minio-client:
     image: minio/mc:${MINIO_CLIENT_IMAGE_TAG}
