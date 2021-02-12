@@ -1,0 +1,18 @@
+version: '3.8'
+
+volumes:
+  common-cassandra-db:
+    name: 'common-cassandra-db'
+
+services:
+
+  cassandra:
+    image: cassandra:${CASSANDRA_IMAGE_TAG}
+    env_file:
+      - .envs/cassandra.env
+    volumes:
+      - common-cassandra-db:/var/lib/cassandra
+    networks:
+      common-net:
+        aliases:
+          - common-cassandra
