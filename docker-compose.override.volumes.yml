@@ -1,0 +1,30 @@
+version: '3.8'
+
+services:
+
+  volume-backup:
+    image: alpine:latest
+    volumes:
+      - ./.volume-backups:/backup
+      - ${NAMED_VOLUME_TO_BACKUP}:/dbdata
+    tty: true
+    command:
+      - tar
+      - cvf
+      - /backup/${NAMED_VOLUME_TO_BACKUP}.tar
+      - /dbdata
+
+  volume-restore:
+    image: alpine:latest
+    volumes:
+      - ./.volume-backups:/backup
+      - ${NAMED_VOLUME_TO_RESTORE}:/dbdata
+    tty: true
+    command:
+      - tar
+      - xvf
+      - /backup/${NAMED_VOLUME_TO_RESTORE}.tar
+      - -C
+      - /dbdata
+      - --strip
+      - "1"
