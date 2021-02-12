@@ -2,6 +2,42 @@ version: '3.8'
 
 services:
 
+  adminer:
+    env_file:
+      - .envs/http-proxy.env
+    ports:
+      - ${ADMINER_PUBLISH_PORT}:8080
+
+  cassandra:
+    ports:
+      - ${CASSANDRA_PUBLISH_PORT}:9042
+
+  elasticsearch:
+    env_file:
+      - .envs/http-proxy.env
+    ports:
+      - "${ELASTICSEARCH_PUBLISH_PORT}:9200"
+
+  kibana:
+    env_file:
+      - .envs/http-proxy.env
+    ports:
+      - "${KIBANA_PUBLISH_PORT}:5601"
+
+  mailhog:
+    ports:
+      - "${MAILHOG_PUBLISH_PORT}:8025"
+
+  minio:
+    env_file:
+      - .envs/http-proxy.env
+    ports:
+     - ${MINIO_PUBLISH_PORT}:9000
+
+  minio-client:
+    volumes:
+      - ./minio/policies:/minio-policies
+
   mysql:
     command:
       - --character-set-server=utf8mb4
@@ -12,12 +48,6 @@ services:
       - .envs/http-proxy.env
     ports:
       - ${MYSQL_PUBLISH_PORT}:3306
-
-  adminer:
-    env_file:
-      - .envs/http-proxy.env
-    ports:
-      - ${ADMINER_PUBLISH_PORT}:8080
 
   redis:
     env_file:
@@ -37,37 +67,11 @@ services:
     ports:
       - ${REDIS_SENTINEL_PUBLISH_PORT}:26379
 
-  minio:
-    env_file:
-      - .envs/http-proxy.env
-    ports:
-     - ${MINIO_PUBLISH_PORT}:9000
-
-  minio-client:
-    volumes:
-      - ./minio/policies:/minio-policies
-
   rabbitmq:
     env_file:
       - .envs/http-proxy.env
     ports:
       - ${RABBITMQ_PUBLISH_PORT}:15672
-
-  elasticsearch:
-    env_file:
-      - .envs/http-proxy.env
-    ports:
-      - "${ELASTICSEARCH_PUBLISH_PORT}:9200"
-
-  kibana:
-    env_file:
-      - .envs/http-proxy.env
-    ports:
-      - "${KIBANA_PUBLISH_PORT}:5601"
-
-  mailhog:
-    ports:
-      - "${MAILHOG_PUBLISH_PORT}:8025"
 
   traefik:
     env_file:
@@ -75,7 +79,3 @@ services:
     ports:
       - "80:80"
       - "8080:8080"
-
-  cassandra:
-    ports:
-      - ${CASSANDRA_PUBLISH_PORT}:9042
