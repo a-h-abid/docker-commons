@@ -67,6 +67,13 @@ services:
     ports:
       - ${REDIS_SENTINEL_PUBLISH_PORT}:26379
 
+  redisearch:
+    # image: docker.io/your-id/redisearch:${REDISEARCH_IMAGE_TAG}-0
+    env_file:
+      - .envs/redisearch.env # you can also use the 'redis.env' here
+    ports:
+      - ${REDISEARCH_PUBLISH_PORT}:6379
+
   rabbitmq:
     env_file:
       - .envs/http-proxy.env

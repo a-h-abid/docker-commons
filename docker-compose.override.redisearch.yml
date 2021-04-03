@@ -1,0 +1,22 @@
+version: '3.8'
+
+volumes:
+  common-redisearch:
+    name: 'common-redis'
+
+services:
+
+  redisearch:
+    image: ${COMPOSE_PROJECT_NAME}_redisearch:${REDISEARCH_IMAGE_TAG}
+    build:
+      context: ${DOCKER_BUILD_CONTEXT_DIR}
+      dockerfile: redisearch/Dockerfile
+      args:
+        - REDIS_IMAGE_TAG=${REDIS_IMAGE_TAG}
+        - REDISEARCH_IMAGE_TAG=${REDISEARCH_IMAGE_TAG}
+    networks:
+      common-net:
+        aliases:
+          - common-redisearch
+    volumes:
+      - common-redisearch:/bitnami
