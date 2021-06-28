@@ -47,6 +47,11 @@ services:
     ports:
       - ${MYSQL_PUBLISH_PORT}:3306
 
+  oracle:
+    shm_size: 1g
+    ports:
+      - "1521:1521"
+
   redis:
     env_file:
       - .envs/http-proxy.env
