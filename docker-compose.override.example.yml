@@ -50,7 +50,7 @@ services:
   oracle:
     shm_size: 1g
     ports:
-      - "1521:1521"
+      - "${ORACLE_PUBLISH_PORT}:1521"
 
   redis:
     env_file:

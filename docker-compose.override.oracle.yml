@@ -5,12 +5,12 @@ volumes:
 services:
 
   oracle:
-    image: gvenzl/oracle-xe:${ORACLE_IMAGE_TAG:-11.2.0.2-slim}
+    image: gvenzl/oracle-xe:${ORACLE_IMAGE_TAG}
     tty: true
     env_file:
       - .envs/oracle.env
     volumes:
-      - common-oracle-db:${ORACLE_VOLUME_CONTAINER_DIR:-/u01/app/oracle/oradata}
+      - common-oracle-db:${ORACLE_VOLUME_CONTAINER_DIR}
     networks:
       common-net:
         aliases:
