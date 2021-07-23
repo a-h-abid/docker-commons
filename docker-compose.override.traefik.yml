@@ -6,6 +6,8 @@ services:
 
   traefik:
     image: traefik:${TRAEFIK_IMAGE_TAG}
+    env_file:
+      - .envs/traefik.env
     labels:
       - "traefik.enable=true"
     networks:
