@@ -1,8 +1,6 @@
 services:
 
   adminer:
-    env_file:
-      - .envs/http-proxy.env
     ports:
       - ${ADMINER_PUBLISH_PORT}:8080
 
@@ -11,14 +9,10 @@ services:
       - ${CASSANDRA_PUBLISH_PORT}:9042
 
   elasticsearch:
-    env_file:
-      - .envs/http-proxy.env
     ports:
       - "${ELASTICSEARCH_PUBLISH_PORT}:9200"
 
   kibana:
-    env_file:
-      - .envs/http-proxy.env
     ports:
       - "${KIBANA_PUBLISH_PORT}:5601"
 
@@ -27,8 +21,6 @@ services:
       - "${MAILHOG_PUBLISH_PORT}:8025"
 
   minio:
-    env_file:
-      - .envs/http-proxy.env
     ports:
      - ${MINIO_PUBLISH_PORT}:9000
 
@@ -42,8 +34,6 @@ services:
       - --collation-server=utf8mb4_unicode_ci
       - --default-authentication-plugin=mysql_native_password
       - --local-infile=1
-    env_file:
-      - .envs/http-proxy.env
     ports:
       - ${MYSQL_PUBLISH_PORT}:3306
 
@@ -53,39 +43,27 @@ services:
       - "${ORACLE_PUBLISH_PORT}:1521"
 
   redis:
-    env_file:
-      - .envs/http-proxy.env
     ports:
       - ${REDIS_PUBLISH_PORT}:6379
 
   redis-slave:
-    env_file:
-      - .envs/http-proxy.env
     ports:
       - ${REDIS_SLAVE_PUBLISH_PORT}:6379
 
   redis-sentinel:
-    env_file:
-      - .envs/http-proxy.env
     ports:
       - ${REDIS_SENTINEL_PUBLISH_PORT}:26379
 
   redisearch:
     # image: docker.io/your-id/redisearch:${REDISEARCH_IMAGE_TAG}-0
-    env_file:
-      - .envs/redisearch.env # you can also use the 'redis.env' here
     ports:
       - ${REDISEARCH_PUBLISH_PORT}:6379
 
   rabbitmq:
-    env_file:
-      - .envs/http-proxy.env
     ports:
       - ${RABBITMQ_PUBLISH_PORT}:15672
 
   traefik:
-    env_file:
-      - .envs/traefik.env
     ports:
       - "80:80"
       - "8080:8080"
