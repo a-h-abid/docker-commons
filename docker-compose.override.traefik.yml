@@ -8,6 +8,8 @@ services:
     image: traefik:${TRAEFIK_IMAGE_TAG}
     labels:
       - "traefik.enable=true"
+    env_file:
+      - .envs/traefik.env
     networks:
       - common-traefik-net
     volumes:

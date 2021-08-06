@@ -12,6 +12,8 @@ services:
       args:
         - REDIS_IMAGE_TAG=${REDIS_IMAGE_TAG}
         - REDISEARCH_IMAGE_TAG=${REDISEARCH_IMAGE_TAG}
+    env_file:
+      - .envs/redisearch.env
     networks:
       common-net:
         aliases:
