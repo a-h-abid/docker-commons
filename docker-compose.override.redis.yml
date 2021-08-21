@@ -14,3 +14,10 @@ services:
           - common-redis
     volumes:
       - common-redis:/bitnami
+
+  redis-commander:
+    image: rediscommander/redis-commander:latest
+    env_file:
+      - .envs/redis-commander.env
+    networks:
+      - common-net

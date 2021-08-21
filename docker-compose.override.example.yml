@@ -54,6 +54,10 @@ services:
     ports:
       - ${REDIS_SENTINEL_PUBLISH_PORT}:26379
 
+  redis-commander:
+    ports:
+      - ${REDIS_COMMANDER_PUBLISH_PORT}:8081
+
   redisearch:
     # image: docker.io/your-id/redisearch:${REDISEARCH_IMAGE_TAG}-0
     ports:
