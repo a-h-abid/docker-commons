@@ -1,0 +1,10 @@
+services:
+
+  ldap:
+    image: bitnami/openldap:${LDAP_IMAGE_TAG}
+    env_file:
+      - .envs/ldap.env
+    networks:
+      common-net:
+        aliases:
+          - common-ldap
