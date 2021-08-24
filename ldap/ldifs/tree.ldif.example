@@ -5,6 +5,7 @@ objectClass: organization
 dc: example
 o: example
 
+# Organizational Unit creation
 dn: ou=users,dc=example,dc=org
 objectClass: organizationalUnit
 ou: users
