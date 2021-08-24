@@ -5,7 +5,6 @@ objectClass: organization
 dc: example
 o: example
 
-# Organizational Unit creation
 dn: ou=users,dc=example,dc=org
 objectClass: organizationalUnit
 ou: users
@@ -40,5 +39,6 @@ homeDirectory: /home/user02
 dn: cn=readers,ou=users,dc=example,dc=org
 cn: readers
 objectClass: groupOfNames
+# User group membership
 member: cn=user01,ou=users,dc=example,dc=org
 member: cn=user02,ou=users,dc=example,dc=org
