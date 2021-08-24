@@ -1,2 +1,3 @@
 *.ldif
-!example.ldif
+!tree.ldif.example
+
