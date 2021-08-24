@@ -1,9 +1,18 @@
+volumes:
+  common-ldap:
+    name: 'common-ldap'
+  common-ldapadmin:
+    name: 'common-ldapadmin'
+
 services:
 
   ldap:
     image: bitnami/openldap:${LDAP_IMAGE_TAG}
     env_file:
       - .envs/ldap.env
+    volumes:
+      - common-ldap:/bitname/openldap/data
+      - ./ldap/ldifs:/ldifs
     networks:
       common-net:
         aliases:
@@ -15,3 +24,4 @@ services:
       - common-net
     volumes:
       - ./ldap/admin/env.yaml:/container/environment/01-custom/env.yaml
+      - common-ldapadmin:/var/www/phpldapadmin
