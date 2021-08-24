@@ -8,3 +8,10 @@ services:
       common-net:
         aliases:
           - common-ldap
+
+  ldapadmin:
+    image: osixia/phpldapadmin:latest
+    networks:
+      - common-net
+    volumes:
+      - ./ldap/admin/env.yaml:/container/environment/01-custom/env.yaml

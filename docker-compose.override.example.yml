@@ -16,6 +16,10 @@ services:
     ports:
       - "${KIBANA_PUBLISH_PORT}:5601"
 
+  ldapadmin:
+    ports:
+      - ${LDAPADMIN_PUBLISH_PORT}:80
+
   mailhog:
     ports:
       - "${MAILHOG_PUBLISH_PORT}:8025"
