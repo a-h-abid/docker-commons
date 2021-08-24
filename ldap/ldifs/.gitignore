@@ -1,0 +1,2 @@
+*.ldif
+!example.ldif

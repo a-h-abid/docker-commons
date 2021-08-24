@@ -1,0 +1,44 @@
+# Root creation
+dn: dc=example,dc=org
+objectClass: dcObject
+objectClass: organization
+dc: example
+o: example
+
+# Organizational Unit creation
+dn: ou=users,dc=example,dc=org
+objectClass: organizationalUnit
+ou: users
+
+# User user01 creation
+dn: cn=user01,ou=users,dc=example,dc=org
+cn: User1
+sn: Bar1
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+userPassword: 1234
+uid: user01
+uidNumber: 1000
+gidNumber: 1000
+homeDirectory: /home/user01
+
+# User user02 creation
+dn: cn=user02,ou=users,dc=example,dc=org
+cn: User2
+sn: Bar2
+objectClass: inetOrgPerson
+objectClass: posixAccount
+objectClass: shadowAccount
+userPassword: 1234
+uid: user02
+uidNumber: 1001
+gidNumber: 1001
+homeDirectory: /home/user02
+
+# Group creation
+dn: cn=readers,ou=users,dc=example,dc=org
+cn: readers
+objectClass: groupOfNames
+member: cn=user01,ou=users,dc=example,dc=org
+member: cn=user02,ou=users,dc=example,dc=org
