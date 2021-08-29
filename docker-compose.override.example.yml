@@ -41,6 +41,10 @@ services:
     ports:
       - ${MYSQL_PUBLISH_PORT}:3306
 
+  nfs-server:
+    ports:
+      - ${NFS_SERVER_PUBLISH_PORT}:2049
+
   oracle:
     shm_size: 1g
     ports:

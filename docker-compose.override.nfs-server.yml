@@ -1,0 +1,10 @@
+services:
+
+  nfs-server:
+    image: itsthenetwork/nfs-server-alpine:12
+    privileged: true
+    environment:
+      SHARED_DIRECTORY: "/data"
+    tty: true
+    volumes:
+      - ${NFS_SERVER_VOLUME_DATA_DIR}:/data
