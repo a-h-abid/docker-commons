@@ -11,7 +11,7 @@ services:
     env_file:
       - .envs/ldap.env
     volumes:
-      - common-ldap:/bitname/openldap/data
+      - common-ldap:/bitnami/openldap
       - ./ldap/ldifs:/ldifs
     networks:
       common-net:
