@@ -29,7 +29,7 @@ sudo mount -v -o vers=4,loud <container-ip>:/ /path/to/mount
 **Important:** In your development machine, be sure to unmount the path, otherwise may cause issues. To unmount:
 
 ```
-sudo unmount /path/to/mount
+sudo umount /path/to/mount
 ```
 
 ## License
