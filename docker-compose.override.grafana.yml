@@ -1,0 +1,17 @@
+volumes:
+  common-grafana-data:
+    name: 'common-grafana-data'
+  common-grafana-log:
+    name: 'common-grafana-log'
+
+services:
+
+  grafana:
+    image: 'grafana/${GRAFANA_IMAGE_TAG}'
+    env_file:
+      - .envs/grafana.env
+    networks:
+      - common-net
+    volumes:
+      - common-grafana-data:/var/lib/grafana
+      - common-grafana-log:/var/log/grafana
