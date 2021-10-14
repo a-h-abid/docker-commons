@@ -10,15 +10,15 @@ services:
 
   elasticsearch:
     ports:
-      - "${ELASTICSEARCH_PUBLISH_PORT}:9200"
+      - ${ELASTICSEARCH_PUBLISH_PORT}:9200
 
   grafana:
     ports:
-      - "${GRAFANA_PUBLISH_PORT}:3000"
+      - ${GRAFANA_PUBLISH_PORT}:3000
 
   kibana:
     ports:
-      - "${KIBANA_PUBLISH_PORT}:5601"
+      - ${KIBANA_PUBLISH_PORT}:5601
 
   ldapadmin:
     ports:
@@ -26,7 +26,7 @@ services:
 
   mailhog:
     ports:
-      - "${MAILHOG_PUBLISH_PORT}:8025"
+      - ${MAILHOG_PUBLISH_PORT}:8025
 
   minio:
     ports:
@@ -52,7 +52,7 @@ services:
   oracle:
     shm_size: 1g
     ports:
-      - "${ORACLE_PUBLISH_PORT}:1521"
+      - ${ORACLE_PUBLISH_PORT}:1521
 
   redis:
     ports:
@@ -81,5 +81,5 @@ services:
 
   traefik:
     ports:
-      - "80:80"
-      - "8080:8080"
+      - 80:80
+      - 8080:8080
