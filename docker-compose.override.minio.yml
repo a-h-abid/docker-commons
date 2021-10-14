@@ -8,7 +8,12 @@ services:
 
   minio:
     image: minio/minio:${MINIO_IMAGE_TAG}
-    command: ["minio", "server", "/data"]
+    command:
+      - minio
+      - server
+      - /data
+      - --console-address
+      - :${MINIO_CONSOLE_PUBLISH_PORT:-9001}
     restart: "no"
     env_file:
       - .envs/minio.env

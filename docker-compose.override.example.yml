@@ -30,7 +30,8 @@ services:
 
   minio:
     ports:
-     - ${MINIO_PUBLISH_PORT}:9000
+      - ${MINIO_API_PUBLISH_PORT}:9000
+      - ${MINIO_CONSOLE_PUBLISH_PORT:-9001}:${MINIO_CONSOLE_PUBLISH_PORT:-9001}
 
   minio-client:
     volumes:
