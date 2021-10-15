@@ -60,8 +60,10 @@ Volume Restore      | volume-restore  | No
     * Remove any service sections you will not use.
     * Modify any settings you want to add or remove as you need.
 1. Files in `.envs/{name}.env`, update them as you need.
+1. Run `docker-compose pull` to pull/download all the images. Sometimes it will stop due to network error, just re-run it.
 1. Run `docker network create common-net`. We will use this network to connect internally from our applications.
 1. (Optional) If you want to use Traefik, run `docker network create common-traefik-net`. We will use this network to serve web requests using domain names to our application's web server.
+1. (Optional) If you are using any of the services that require image to build, run `docker-compose build <service-name>` to build those images.
 
 
 ## Running Services
