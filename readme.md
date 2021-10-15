@@ -6,6 +6,8 @@ The problem this project solves is that during development in multiple projects,
 
 As these things became a problem for me, I made this docker script to easily manage them centrally from one place. Also made it configurable to run only those services you need.
 
+I have tested it mostly in a Linux environment, but I also tried to add some support for Windows OS. If your Windows OS supports WSL2, I highly encourage you to use that.
+
 
 ## Services
 
@@ -32,22 +34,34 @@ Traefik             | traefik         | No
 Volume Backup       | volume-backup   | No
 Volume Restore      | volume-restore  | No
 
+**Note**: The following services will not work in Windows Host Machine. You will have to use it inside WSL2 Distribution.
+* NFS Server
+
 
 ## Tested Docker Version
 
-- Docker Engine v20.13+
+- Docker Engine v20.10+
 - Docker Compose v1.27+
 
 
 ## Setup Process
 
-1. Clone the project to a path and `cd` to it.
-1. Copy `./.env.example` file to `./.env` and then you will have to update the values per your need.
-  * In `COMPOSE_FILE` env for the services you want to use.
-1. Copy `./docker-compose.override.example.yml` file to `./docker-compose.override.yml` and then update it with components as per your need.
-1. Copy all example files in `./envs` to `./envs/{service-name}.env` file and then update them per your need.
-  * Ex. `cp ./.envs/mysql.example.env ./.envs/mysql.env`.
-1. Run `docker network create common-net`
+1. Open a terminal or command prompt.
+1. Git clone the project to a path and `cd` to it. If possible open the directory in an IDE.
+1. You will have to create files from example files. You can simply run the `copy-examples.sh` (Linux) / `copy-examples.bat` (Windows) file to auto-create them or create them manually as below by copying them. Special note: **DO NOT DELETE EXAMPLE FILES**. These are kept for reference.
+    * .env.example -> .env
+    * docker-compose.override.example.yml -> docker-compose.override.yml
+    * .envs/{name}.example.env -> .envs/{name}.env
+1. In file `./.env`, you will have to update the values per your need.
+    * `COMPOSE_FILE`: Mention the `docker-compose.override.{name}.yml` files you will want to use. Keep the `docker-compose.override.yml` file at the end. Use separator `:` for Linux or `;` for Windows.
+    * `COMPOSE_PATH_SEPARATOR`: Use separator `:` for Linux or `;` for Windows.
+    * Rest details are written in the file as comments. Read and do update as you need.
+1. In file `./docker-compose.override.yml`, you will have to update the values per your need.
+    * Remove any service sections you will not use.
+    * Modify any settings you want to add or remove as you need.
+1. Files in `.envs/{name}.env`, update them as you need.
+1. Run `docker network create common-net`. We will use this network to connect internally from our applications.
+1. (Optional) If you want to use Traefik, run `docker network create common-traefik-net`. We will use this network to serve web requests using domain names to our application's web server.
 
 
 ## Running Services
@@ -56,9 +70,11 @@ Volume Restore      | volume-restore  | No
 * Run specific services only by `docker-compose up -d <service1> <service2> ...`
 
 
-## NFS server after up
+## Service Specific Details
 
-Mount nfs server in your host machine. To get container IP, you can use `ifconfig` or `hostname -I` or any other method you know.
+### NFS server
+
+After starting the container, you have to mount nfs server in your host machine. To get container IP, you can use `ifconfig` or `hostname -I` or any other method you know.
 
 ```
 sudo mount -v -o vers=4,loud <container-ip>:/ /path/to/mount
