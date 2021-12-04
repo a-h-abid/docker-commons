@@ -55,6 +55,10 @@ services:
     ports:
       - ${ORACLE_PUBLISH_PORT}:1521
 
+  portainer:
+    ports:
+      - ${PORTAINER_PUBLISH_PORT}:9443
+
   redis:
     ports:
       - ${REDIS_PUBLISH_PORT}:6379

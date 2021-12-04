@@ -1,0 +1,17 @@
+volumes:
+  common-portainer:
+    name: 'common-portainer'
+
+services:
+
+  portainer:
+    image: cr.portainer.io/portainer/portainer-ce:${PORTAINER_IMAGE_TAG}
+    # env_file:
+    #   - .envs/portainer.env
+    networks:
+      common-net:
+        aliases:
+          - common-portainer
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - common-portainer:/data
