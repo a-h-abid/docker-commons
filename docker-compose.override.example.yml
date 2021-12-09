@@ -37,6 +37,11 @@ services:
     volumes:
       - ./minio/policies:/minio-policies
 
+  minio-nginx:
+    ports:
+      - ${MINIO_NGINX_API_PUBLISH_PORT}:443
+      - ${MINIO_NGINX_CONSOLE_PUBLISH_PORT}:444
+
   mysql:
     command:
       - --character-set-server=utf8mb4

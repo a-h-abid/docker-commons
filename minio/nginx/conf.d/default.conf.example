@@ -1,0 +1,92 @@
+# Minio API nonSSL
+server {
+    listen 80 default_server;
+    server_name _;
+
+    location / {
+        resolver 127.0.0.11 valid=10s;
+        proxy_pass http://common-minio:9000;
+
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection '';
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Host $http_host;
+        proxy_connect_timeout 300;
+        proxy_buffering off;
+
+        chunked_transfer_encoding off;
+    }
+}
+
+# Minio API SSL
+server {
+    listen 443 ssl http2;
+    server_name _;
+
+    location / {
+        resolver 127.0.0.11 valid=10s;
+        proxy_pass http://common-minio:9000;
+
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection '';
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Host $http_host;
+        proxy_connect_timeout 300;
+        proxy_buffering off;
+
+        chunked_transfer_encoding off;
+    }
+
+    ssl_certificate /etc/nginx/certs/ssl-cert-snakeoil.pem;
+    ssl_certificate_key /etc/nginx/certs/ssl-cert-snakeoil.key;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384; ## https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html#toc_1
+    ssl_prefer_server_ciphers on;
+    ssl_ecdh_curve auto;
+    ssl_session_tickets off;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 24h;
+    ssl_stapling off;
+    ssl_stapling_verify off;
+}
+
+# Minio Console SSL
+server {
+    listen 444 ssl http2;
+    server_name _;
+
+    location / {
+        resolver 127.0.0.11 valid=10s;
+        proxy_pass http://common-minio:9005;
+
+        proxy_http_version 1.1;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection 'Upgrade';
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header Host $http_host;
+        proxy_connect_timeout 300;
+        proxy_buffering off;
+
+        chunked_transfer_encoding off;
+    }
+
+    ssl_certificate /etc/nginx/certs/ssl-cert-snakeoil.pem;
+    ssl_certificate_key /etc/nginx/certs/ssl-cert-snakeoil.key;
+    ssl_protocols TLSv1.2 TLSv1.3;
+    ssl_ciphers ECDHE-RSA-AES256-GCM-SHA512:DHE-RSA-AES256-GCM-SHA512:ECDHE-RSA-AES256-GCM-SHA384:DHE-RSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-SHA384; ## https://raymii.org/s/tutorials/Strong_SSL_Security_On_nginx.html#toc_1
+    ssl_prefer_server_ciphers on;
+    ssl_ecdh_curve auto;
+    ssl_session_tickets off;
+    ssl_session_cache shared:SSL:10m;
+    ssl_session_timeout 24h;
+    ssl_stapling off;
+    ssl_stapling_verify off;
+}

@@ -34,3 +34,15 @@ services:
       - common-net
     volumes:
       - common-minio-client-config:/root/.mc
+
+  minio-nginx:
+    image: nginx:${MINIO_NGINX_IMAGE_TAG:-alpine}
+    restart: "no"
+    depends_on:
+      - minio
+    networks:
+      - common-net
+    volumes:
+      - ./minio/nginx/conf.d:/etc/nginx/conf.d
+      - ./minio/nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./minio/nginx/certs:/etc/nginx/certs
