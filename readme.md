@@ -98,11 +98,11 @@ networks:
     external: true
 
 services:
-    myapp:
-        ...
-        networks:
-            - common-net
-        ...
+  myapp:
+    ...
+    networks:
+      - common-net
+      ...
 ```
 
 And in you application database configuration:
