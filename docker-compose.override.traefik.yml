@@ -11,6 +11,7 @@ services:
     labels:
       - "traefik.enable=true"
     command:
+      - --accesslog=true
       - --entrypoints.web.address=:80
       - --entrypoints.web-secure.address=:443
       - --providers.docker=true
