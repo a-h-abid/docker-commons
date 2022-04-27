@@ -10,7 +10,6 @@ services:
       - .envs/traefik.env
     labels:
       - "traefik.enable=true"
-      - "traefik.http.routers.traefik=true"
     command:
       - --entrypoints.web.address=:80
       - --entrypoints.web-secure.address=:443

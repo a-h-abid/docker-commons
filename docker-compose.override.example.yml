@@ -90,6 +90,8 @@ services:
       - ${RABBITMQ_PUBLISH_PORT}:15672
 
   traefik:
+    labels:
+      - "traefik.http.routers.traefik=true"
     ports:
       - 80:80
       - 443:443
