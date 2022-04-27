@@ -1,0 +1,9 @@
+tls:
+  certificates:
+    # first certificate
+    - certFile: /certs/example-com.cert
+      keyFile: /certs/example-com.key
+
+    # second certificate
+    - certFile: /certs/other.cert
+      keyFile: /certs/other.key

@@ -10,9 +10,16 @@ services:
       - .envs/traefik.env
     labels:
       - "traefik.enable=true"
-    env_file:
-      - .envs/traefik.env
+      - "traefik.http.routers.traefik=true"
+    command:
+      - --entrypoints.web.address=:80
+      - --entrypoints.web-secure.address=:443
+      - --providers.docker=true
+      - --providers.file.directory=/configuration/
+      - --providers.file.watch=true
     networks:
       - common-traefik-net
     volumes:
       - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/configuration:/configuration
+      - ./.common/certs:/certs
