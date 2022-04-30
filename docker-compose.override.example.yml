@@ -24,6 +24,10 @@ services:
     ports:
       - ${LDAPADMIN_PUBLISH_PORT}:80
 
+  maildev:
+    ports:
+      - ${MAILDEV_PUBLISH_PORT}:1080
+
   mailhog:
     ports:
       - ${MAILHOG_PUBLISH_PORT}:8025

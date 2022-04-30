@@ -1,0 +1,8 @@
+services:
+
+  maildev:
+    image: 'maildev/maildev:${MAILDEV_IMAGE_TAG}'
+    networks:
+      common-net:
+        aliases:
+          - common-maildev
