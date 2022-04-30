@@ -36,6 +36,8 @@ services:
     ports:
       - ${MINIO_API_PUBLISH_PORT}:9000
       - ${MINIO_CONSOLE_PUBLISH_PORT:-9001}:${MINIO_CONSOLE_PUBLISH_PORT:-9001}
+    volumes:
+      - ./minio/certs:/root/.minio/certs
 
   minio-client:
     volumes:
