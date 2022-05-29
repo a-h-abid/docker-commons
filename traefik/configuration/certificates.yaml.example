@@ -7,3 +7,14 @@ tls:
     # second certificate
     - certFile: /certs/other.cert
       keyFile: /certs/other.key
+
+  stores:
+    default:
+      defaultCertificate:
+        certFile: path/to/cert.crt
+        keyFile: path/to/cert.key
+
+  options:
+    default:
+      minVersion: VersionTLS12
+
