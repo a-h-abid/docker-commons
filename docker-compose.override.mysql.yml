@@ -11,6 +11,7 @@ services:
       - --collation-server=utf8mb4_unicode_ci
       - --default-authentication-plugin=mysql_native_password
       - --local-infile=1
+      - --secure-file-priv=/sqls
     env_file:
       - .envs/mysql.env
     volumes:
