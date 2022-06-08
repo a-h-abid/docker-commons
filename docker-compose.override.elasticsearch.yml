@@ -1,7 +1,7 @@
 volumes:
-  common-elasticsearch-data:
+  elasticsearch-data:
     driver: local
-  common-elasticsearch-logs:
+  elasticsearch-logs:
     driver: local
 
 services:
