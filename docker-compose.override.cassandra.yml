@@ -10,6 +10,7 @@ services:
       - .envs/cassandra.env
     volumes:
       - ./cassandra/cassandra.yaml:/etc/cassandra/cassandra.yaml
+      - ./cassandra/cqls:/cqls
       - common-cassandra-db:/var/lib/cassandra
     networks:
       common-net:
