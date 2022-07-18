@@ -36,11 +36,10 @@ uidNumber: 1001
 gidNumber: 1001
 homeDirectory: /home/user02
 
-# Group creation
+# Group creation and
+# User group membership
 dn: cn=readers,ou=users,dc=example,dc=org
 cn: readers
 objectClass: groupOfNames
-
-# User group membership
 member: cn=user01,ou=users,dc=example,dc=org
 member: cn=user02,ou=users,dc=example,dc=org
