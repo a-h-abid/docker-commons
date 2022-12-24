@@ -1,22 +1,31 @@
 volumes:
   common-redisearch:
-    name: 'common-redis'
+    name: 'common-redisearch'
+  common-redisearch-slave:
+    name: 'common-redisearch-slave'
 
 services:
 
   redisearch:
-    image: ${COMPOSE_PROJECT_NAME}_redisearch:${REDISEARCH_IMAGE_TAG}
-    build:
-      context: ${DOCKER_BUILD_CONTEXT_DIR}
-      dockerfile: redisearch/Dockerfile
-      args:
-        - REDIS_IMAGE_TAG=${REDIS_IMAGE_TAG}
-        - REDISEARCH_IMAGE_TAG=${REDISEARCH_IMAGE_TAG}
+    image: redislabs/redisearch:${REDISEARCH_IMAGE_TAG}
     env_file:
       - .envs/redisearch.env
+    command: /bin/sh -c "redis-server --requirepass $${REDISEARCH_PASSWORD} --loadmodule /usr/lib/redis/modules/redisearch.so"
     networks:
       common-net:
         aliases:
           - common-redisearch
     volumes:
       - common-redisearch:/bitnami
+
+  redisearch-slave:
+    image: redislabs/redisearch:${REDISEARCH_IMAGE_TAG}
+    env_file:
+      - .envs/redisearch-slave.env
+    command: /bin/sh -c "redis-server --requirepass $${REDISEARCH_PASSWORD} --slaveof $${REDISEARCH_MASTER_HOST} $${REDISEARCH_MASTER_PORT} --masterauth $${REDISEARCH_MASTER_PASSWORD} --loadmodule /usr/lib/redis/modules/redisearch.so"
+    networks:
+      common-net:
+        aliases:
+          - common-redisearch-slave
+    volumes:
+      - common-redisearch-slave:/bitnami

@@ -91,6 +91,11 @@ services:
     ports:
       - ${REDISEARCH_PUBLISH_PORT}:6379
 
+  redisearch-slave:
+    # image: docker.io/your-id/redisearch:${REDISEARCH_IMAGE_TAG}-0
+    ports:
+      - ${REDISEARCH_SLAVE_PUBLISH_PORT}:6379
+
   rabbitmq:
     ports:
       - ${RABBITMQ_PUBLISH_PORT}:15672
