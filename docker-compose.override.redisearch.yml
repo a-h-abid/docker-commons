@@ -17,6 +17,7 @@ services:
           - common-redisearch
     volumes:
       - common-redisearch:/bitnami
+
   redisearch-slave:
     image: redislabs/redisearch:${REDISEARCH_IMAGE_TAG}
     env_file:
