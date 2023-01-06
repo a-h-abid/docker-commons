@@ -16,7 +16,7 @@ services:
         aliases:
           - common-redisearch
     volumes:
-      - common-redisearch:/bitnami
+      - common-redisearch:/data
 
   redisearch-slave:
     image: redislabs/redisearch:${REDISEARCH_IMAGE_TAG}
@@ -28,4 +28,4 @@ services:
         aliases:
           - common-redisearch-slave
     volumes:
-      - common-redisearch-slave:/bitnami
+      - common-redisearch-slave:/data
