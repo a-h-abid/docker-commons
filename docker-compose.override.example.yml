@@ -16,6 +16,10 @@ services:
     ports:
       - ${GRAFANA_PUBLISH_PORT}:3000
 
+  jaeger:
+    ports:
+      - 127.0.0.1:${JAEGER_PUBLISH_PORT}:16686
+
   kibana:
     ports:
       - ${KIBANA_PUBLISH_PORT}:5601

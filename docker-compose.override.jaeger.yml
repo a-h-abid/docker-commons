@@ -1,0 +1,8 @@
+services:
+
+  jaeger:
+    image: 'jaegertracing/all-in-one:${JAEGER_IMAGE_TAG}'
+    env_file:
+      - .envs/jaeger.env
+    networks:
+      - common-net
