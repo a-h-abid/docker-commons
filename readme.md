@@ -17,6 +17,7 @@ Adminer             | adminer         |                     |
 Cassandra           | cassandra       |                     | common-cassandra
 ElasticSearch       | elasticsearch   | Yes                 | common-elasticsearch
 Grafana             | grafana         |                     |
+Jaeger              | grafana         |                     | common-jaeger
 Kibana              | kibana          | Yes                 |
 Mailhog             | mailhog         |                     | common-mailhog
 MinIO               | minio           |                     | common-minio
@@ -41,7 +42,7 @@ Volume Restore      | volume-restore  |                     |
 ## Tested Docker Version
 
 - Docker Engine v20.10+
-- Docker Compose v1.27+
+- Docker Compose v1.29+
 
 
 ## Setup Process

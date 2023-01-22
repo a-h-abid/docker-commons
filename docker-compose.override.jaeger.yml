@@ -5,4 +5,6 @@ services:
     env_file:
       - .envs/jaeger.env
     networks:
-      - common-net
+      common-net:
+        aliases:
+          - common-jaeger
