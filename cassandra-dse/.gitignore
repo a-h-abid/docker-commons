@@ -1,0 +1,5 @@
+cassandra.yaml
+dse.yaml
+*.env
+!*.example.env
+/data
