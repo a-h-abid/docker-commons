@@ -17,5 +17,6 @@ DataStax Enterprise (DSE) provides all the capabilities of Apache Cassandra® pl
     - Configuration file for setting datacenters and rack names and using the PropertyFileSnitch.
 
 ### Notes
-1. Here we have only configured the `dse.yaml` file
+1. Here we have the configured example files `cassandra.example.yaml` and `dse.example.yaml`
+2. Use the `copy-files.sh` or `copy-files.dat` to create `cassandra.yaml` and `dse.yaml` from the relevant example files.
 2. The default <b>username</b> and <b>password</b> for the cluseter is `cassandra` 
