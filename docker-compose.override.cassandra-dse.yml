@@ -1,92 +1,63 @@
 volumes:
-  common-cassandra-db-dse:
-    name: "common-cassandra-db-dse"
+  common-cassandra-dse-db:
+    name: 'common-cassandra-dse-db'
 
 services:
+
   cassandra-node1:
-    image: datastax/dse-server:6.8.16-ubi7
-    container_name: cassandra-node1
+    image: ${COMPOSE_PROJECT_NAME}_cassandra_node1
+    build:
+      context: ${DOCKER_BUILD_CONTEXT_DIR}
+      dockerfile: cassandra-dse/cassandra-dse.Dockerfile
+    container_name: ${COMPOSE_PROJECT_NAME}_cassandra_node1
     hostname: cassandra-node1
+    env_file:
+      - .envs/cassandra-dse.env
+    ulimits:
+      memlock: -1
+      nproc: 32768
+      nofile: 100000
     networks:
       common-net:
         aliases:
           - common-cassandra-node1
-    # Maps cassandra exercises to a local folder.
-    # This preserves data across container restarts.
-    volumes:
-      - ./.volume-backups/tempdb:/opt/dse/tempdb
-      - ./cassandra-dse/dse.yaml:/opt/dse/resources/dse/conf/dse.yaml
+
+  cassandra-node2:
+    image: ${COMPOSE_PROJECT_NAME}_cassandra_node2
+    build:
+      context: ${DOCKER_BUILD_CONTEXT_DIR}
+      dockerfile: cassandra-dse/cassandra-dse.Dockerfile
+    container_name: ${COMPOSE_PROJECT_NAME}_cassandra_node2
+    hostname: cassandra-node2
     env_file:
       - .envs/cassandra-dse.env
-    # Exposing ports for inter cluster communication
-    expose:
-      # Intra-node communication
-      - 7000
-      # TLS intra-node communication
-      - 7001
-      # JMX
-      - 7199
-      # CQL
-      - 9042
-      # CQL SSL
-      - 9142
-    ports:
-      - 9042:9042
     ulimits:
       memlock: -1
       nproc: 32768
       nofile: 100000
-  cassandra-node2:
-    image: datastax/dse-server:6.8.16-ubi7
-    container_name: cassandra-node2
-    hostname: cassandra-node2
     networks:
       common-net:
         aliases:
           - common-cassandra-node2
-    volumes:
-      - ./.volume-backups/tempdb:/opt/dse/tempdb
-      - ./cassandra-dse/dse.yaml:/opt/dse/resources/dse/conf/dse.yaml
+    depends_on:
+      - cassandra-node1
+
+  cassandra-node3:
+    image: ${COMPOSE_PROJECT_NAME}_cassandra_node3
+    build:
+      context: ${DOCKER_BUILD_CONTEXT_DIR}
+      dockerfile: cassandra-dse/cassandra-dse.Dockerfile
+    container_name: ${COMPOSE_PROJECT_NAME}_cassandra_node3
+    hostname: cassandra-node3
     env_file:
       - .envs/cassandra-dse.env
-    expose:
-      - 7000
-      - 7001
-      - 7199
-      - 9042
-      - 9142
-    ports:
-      - 9043:9042
     ulimits:
       memlock: -1
       nproc: 32768
       nofile: 100000
-    depends_on:
-      - cassandra-node1
-  cassandra-node3:
-    image: datastax/dse-server:6.8.16-ubi7
-    container_name: cassandra-node3
-    hostname: cassandra-node3
     networks:
       common-net:
         aliases:
           - common-cassandra-node3
-    volumes:
-      - ./.volume-backups/tempdb:/opt/dse/tempdb
-      - ./cassandra-dse/dse.yaml:/opt/dse/resources/dse/conf/dse.yaml
-    env_file:
-      - .envs/cassandra-dse.env
-    expose:
-      - 7000
-      - 7001
-      - 7199
-      - 9042
-      - 9142
-    ports:
-      - 9044:9042
-    ulimits:
-      memlock: -1
-      nproc: 32768
-      nofile: 100000
     depends_on:
       - cassandra-node2
