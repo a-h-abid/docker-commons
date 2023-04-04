@@ -1,8 +1,10 @@
 volumes:
+
   common-postgres-data:
     name: 'common-postgres-data'
 
 services:
+
   postgres:
     container_name: common-postgres
     image: postgres:${POSTGRES_IMAGE_TAG}
