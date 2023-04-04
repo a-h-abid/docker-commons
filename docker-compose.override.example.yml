@@ -129,3 +129,9 @@ services:
       - 80:80
       - 443:443
       - 8080:8080
+
+  postgres:
+    ports:
+      - ${POSTGRES_PUBLISH_PORT}:5432
+    volumes:
+      - common-postgres-data:/var/lib/postgresql/data
