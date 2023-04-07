@@ -129,3 +129,7 @@ services:
       - 80:80
       - 443:443
       - 8080:8080
+
+  zookeeper:
+    ports:
+      - ${ZOOKEEPER_PUBLISH_PORT}:2181
