@@ -1,0 +1,13 @@
+services:
+
+  zookeeper:
+    container_name: common-zookeeper
+    hostname: common-zookeeper
+    image: zookeeper:${ZOOKEEPER_IMAGE_TAG}
+    restart: always
+    env_file:
+      - .envs/apache-zookeeper.env
+    networks:
+      common-net:
+        aliases:
+          - common-zookeeper
