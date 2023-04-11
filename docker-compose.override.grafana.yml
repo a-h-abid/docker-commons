@@ -7,7 +7,7 @@ volumes:
 services:
 
   grafana:
-    image: 'grafana/${GRAFANA_IMAGE_TAG}'
+    image: 'grafana/grafana:${GRAFANA_IMAGE_TAG}'
     env_file:
       - .envs/grafana.env
     networks:

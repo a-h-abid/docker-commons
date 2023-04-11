@@ -8,6 +8,24 @@ services:
     ports:
       - ${CASSANDRA_PUBLISH_PORT}:9042
 
+  cassandra-node1:
+    ports:
+      - ${CASSANDRA_NODE1_PUBLISH_PORT}:9042
+    volumes:
+      - common-cassandra-dse-db:/var/lib/cassandra/data
+
+  cassandra-node2:
+    ports:
+      - ${CASSANDRA_NODE2_PUBLISH_PORT}:9042
+    volumes:
+      - common-cassandra-dse-db:/var/lib/cassandra/data
+
+  cassandra-node3:
+    ports:
+      - ${CASSANDRA_NODE3_PUBLISH_PORT}:9042
+    volumes:
+      - common-cassandra-dse-db:/var/lib/cassandra/data
+
   elasticsearch:
     ports:
       - ${ELASTICSEARCH_PUBLISH_PORT}:9200
@@ -15,6 +33,10 @@ services:
   grafana:
     ports:
       - ${GRAFANA_PUBLISH_PORT}:3000
+
+  jaeger:
+    ports:
+      - 127.0.0.1:${JAEGER_PUBLISH_PORT}:16686
 
   kibana:
     ports:
@@ -110,3 +132,7 @@ services:
       - 80:80
       - 443:443
       - 8080:8080
+
+  zookeeper:
+    ports:
+      - ${ZOOKEEPER_PUBLISH_PORT}:2181

@@ -1,0 +1,63 @@
+volumes:
+  common-cassandra-dse-db:
+    name: 'common-cassandra-dse-db'
+
+services:
+
+  cassandra-node1:
+    image: ${COMPOSE_PROJECT_NAME}_cassandra_node1
+    build:
+      context: ${DOCKER_BUILD_CONTEXT_DIR}
+      dockerfile: cassandra-dse/cassandra-dse.Dockerfile
+    container_name: ${COMPOSE_PROJECT_NAME}_cassandra_node1
+    hostname: cassandra-node1
+    env_file:
+      - .envs/cassandra-dse.env
+    ulimits:
+      memlock: -1
+      nproc: 32768
+      nofile: 100000
+    networks:
+      common-net:
+        aliases:
+          - common-cassandra-node1
+
+  cassandra-node2:
+    image: ${COMPOSE_PROJECT_NAME}_cassandra_node2
+    build:
+      context: ${DOCKER_BUILD_CONTEXT_DIR}
+      dockerfile: cassandra-dse/cassandra-dse.Dockerfile
+    container_name: ${COMPOSE_PROJECT_NAME}_cassandra_node2
+    hostname: cassandra-node2
+    env_file:
+      - .envs/cassandra-dse.env
+    ulimits:
+      memlock: -1
+      nproc: 32768
+      nofile: 100000
+    networks:
+      common-net:
+        aliases:
+          - common-cassandra-node2
+    depends_on:
+      - cassandra-node1
+
+  cassandra-node3:
+    image: ${COMPOSE_PROJECT_NAME}_cassandra_node3
+    build:
+      context: ${DOCKER_BUILD_CONTEXT_DIR}
+      dockerfile: cassandra-dse/cassandra-dse.Dockerfile
+    container_name: ${COMPOSE_PROJECT_NAME}_cassandra_node3
+    hostname: cassandra-node3
+    env_file:
+      - .envs/cassandra-dse.env
+    ulimits:
+      memlock: -1
+      nproc: 32768
+      nofile: 100000
+    networks:
+      common-net:
+        aliases:
+          - common-cassandra-node3
+    depends_on:
+      - cassandra-node2
