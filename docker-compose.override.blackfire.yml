@@ -1,0 +1,9 @@
+services:
+  blackfire:
+    image: blackfire/blackfire:2
+    env_file:
+      - .envs/blackfire.env
+    networks:
+      common-net:
+        aliases:
+          - common-blackfire
