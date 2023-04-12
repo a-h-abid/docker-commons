@@ -1,0 +1,101 @@
+volumes:
+
+  common-middle-var:
+    name: 'common-middle-var'
+
+  common-historical-var:
+    name: 'common-historical-var'
+
+  common-broker-var:
+    name: 'common-broker-var'
+
+  common-coordinator-var:
+    name: 'common-coordinator-var'
+
+  common-router-var:
+    name: 'common-router-var'
+
+  common-druid-shared:
+    name: 'common-druid-shared'
+
+
+services:
+
+  coordinator:
+    image: apache/druid:${APACHE_DRUID_IMAGE_TAG}
+    container_name: common-coordinator
+    depends_on: 
+      - zookeeper
+      - postgres
+    command:
+      - coordinator
+    env_file:
+      - .envs/apache-druid.env
+    networks:
+      common-net:
+        aliases:
+          - common-coordinator
+
+  broker:
+    image: apache/druid:${APACHE_DRUID_IMAGE_TAG}
+    container_name: common-broker
+    depends_on: 
+      - zookeeper
+      - postgres
+      - coordinator
+    command:
+      - broker
+    env_file:
+      - .envs/apache-druid.env
+    networks:
+      common-net:
+        aliases:
+          - common-broker
+
+  historical:
+    image: apache/druid:${APACHE_DRUID_IMAGE_TAG}
+    container_name: common-historical
+    depends_on: 
+      - zookeeper
+      - postgres
+      - coordinator
+    command:
+      - historical
+    env_file:
+      - .envs/apache-druid.env
+    networks:
+      common-net:
+        aliases:
+          - common-historical
+
+  middlemanager:
+    image: apache/druid:${APACHE_DRUID_IMAGE_TAG}
+    container_name: common-middlemanager
+    depends_on: 
+      - zookeeper
+      - postgres
+      - coordinator
+    command:
+      - middleManager
+    env_file:
+      - .envs/apache-druid.env
+    networks:
+      common-net:
+        aliases:
+          - common-middlemanager
+
+  router:
+    image: apache/druid:${APACHE_DRUID_IMAGE_TAG}
+    container_name: common-router
+    depends_on:
+      - zookeeper
+      - postgres
+      - coordinator
+    command:
+      - router
+    env_file:
+      - .envs/apache-druid.env
+    networks:
+      common-net:
+        aliases:
+          - common-router
