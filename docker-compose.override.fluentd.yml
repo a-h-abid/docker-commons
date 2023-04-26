@@ -1,0 +1,18 @@
+services:
+
+  fluentd:
+    build:
+      context: ${DOCKER_BUILD_CONTEXT_DIR}
+      dockerfile: fluentd/fluentd.Dockerfile
+      args:
+        - FLUENTD_IMAGE_TAG=${FLUENTD_IMAGE_TAG}
+        - FLUENTD_APT_ADDITIONAL_PACKAGES=
+        - FLUENTD_GEM_ADDITIONAL_PACKAGES=mysql2 fluent-plugin-mysql fluent-plugin-cassandra-driver
+    volumes:
+      - ./fluentd/conf/fluentd.conf:/fluentd/etc/fluentd.conf
+    environment:
+      - FLUENTD_CONF=fluentd.conf
+    networks:
+      common-net:
+        aliases:
+          - common-fluentd

@@ -30,6 +30,11 @@ services:
     ports:
       - ${ELASTICSEARCH_PUBLISH_PORT}:9200
 
+  fluentd:
+    ports:
+      - ${FLUENTD_PUBLISH_PORT}:24224
+      - ${FLUENTD_PUBLISH_PORT}:24224/udp
+
   grafana:
     ports:
       - ${GRAFANA_PUBLISH_PORT}:3000
