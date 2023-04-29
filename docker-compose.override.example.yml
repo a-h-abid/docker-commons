@@ -145,31 +145,31 @@ services:
       - common-druid-shared:/opt/shared
       - common-coordinator-var:/opt/druid/var
     ports:
-      - ${COORDINATOR_PUBLISH_PORT}:8081
+      - ${APACHE_DRUID_COORDINATOR_PUBLISH_PORT}:8081
 
   broker:
     volumes:
       - common-broker-var:/opt/druid/var
     ports:
-      - ${BROKER_PUBLISH_PORT}:8082
+      - ${APACHE_DRUID_BROKER_PUBLISH_PORT}:8082
 
   historical:
     volumes:
       - common-druid-shared:/opt/shared
       - common-historical-var:/opt/druid/var
     ports:
-      - ${HISTORICAL_PUBLISH_PORT}:8083
+      - ${APACHE_DRUID_HISTORICAL_PUBLISH_PORT}:8083
 
   middlemanager:
     volumes:
       - common-druid-shared:/opt/shared
-      - common-middle-var:/opt/druid/var
+      - common-middlemanager-var:/opt/druid/var
     ports:
-      - ${MIDDLEMANAGER_PUBLISH_PORT}:8091
-      - ${MIDDLEMANAGER_PUBLISH_PORT_RANGE}:8100-8105
+      - ${APACHE_DRUID_MIDDLEMANAGER_PUBLISH_PORT}:8091
+      - ${APACHE_DRUID_MIDDLEMANAGER_PUBLISH_PORT_RANGE}:8100-8105
 
   router:
     volumes:
       - common-router-var:/opt/druid/var
     ports:
-      - ${ROUTER_PUBLISH_PORT}:8888
+      - ${APACHE_DRUID_ROUTER_PUBLISH_PORT}:8888

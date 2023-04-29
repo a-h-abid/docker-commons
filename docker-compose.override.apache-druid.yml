@@ -1,7 +1,7 @@
 volumes:
 
-  common-middle-var:
-    name: 'common-middle-var'
+  common-middlemanager-var:
+    name: 'common-middlemanager-var'
 
   common-historical-var:
     name: 'common-historical-var'
