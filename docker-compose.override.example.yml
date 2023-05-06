@@ -145,36 +145,23 @@ services:
     ports:
       - ${ZOOKEEPER_PUBLISH_PORT}:2181
 
-  coordinator:
-    volumes:
-      - common-druid-shared:/opt/shared
-      - common-coordinator-var:/opt/druid/var
+  apache_druid_coordinator:
     ports:
       - ${APACHE_DRUID_COORDINATOR_PUBLISH_PORT}:8081
 
-  broker:
-    volumes:
-      - common-broker-var:/opt/druid/var
+  apache_druid_broker:
     ports:
       - ${APACHE_DRUID_BROKER_PUBLISH_PORT}:8082
 
-  historical:
-    volumes:
-      - common-druid-shared:/opt/shared
-      - common-historical-var:/opt/druid/var
+  apache_druid_historical:
     ports:
       - ${APACHE_DRUID_HISTORICAL_PUBLISH_PORT}:8083
 
-  middlemanager:
-    volumes:
-      - common-druid-shared:/opt/shared
-      - common-middlemanager-var:/opt/druid/var
+  apache_druid_middlemanager:
     ports:
       - ${APACHE_DRUID_MIDDLEMANAGER_PUBLISH_PORT}:8091
       - ${APACHE_DRUID_MIDDLEMANAGER_PUBLISH_PORT_RANGE}:8100-8105
 
-  router:
-    volumes:
-      - common-router-var:/opt/druid/var
+  apache_druid_router:
     ports:
       - ${APACHE_DRUID_ROUTER_PUBLISH_PORT}:8888
