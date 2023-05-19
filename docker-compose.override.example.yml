@@ -121,6 +121,7 @@ services:
   rabbitmq:
     ports:
       - ${RABBITMQ_PUBLISH_PORT}:15672
+
   blackfire:
     ports:
       - ${BLACKFIRE_PUBLISH_PORT}:8307

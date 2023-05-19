@@ -1,6 +1,6 @@
 services:
   blackfire:
-    image: blackfire/blackfire:2
+    image: blackfire/blackfire:${BLACKFIRE_IMAGE_TAG}
     env_file:
       - .envs/blackfire.env
     networks:
