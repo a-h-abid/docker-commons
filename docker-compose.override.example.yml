@@ -127,6 +127,10 @@ services:
     ports:
       - ${RABBITMQ_PUBLISH_PORT}:15672
 
+  blackfire:
+    ports:
+      - ${BLACKFIRE_PUBLISH_PORT}:8307
+
   traefik:
     labels:
       - "traefik.http.routers.traefik=true"
