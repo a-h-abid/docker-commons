@@ -1,0 +1,109 @@
+volumes:
+
+  common-apache-druid-middlemanager-var:
+    name: 'common-apache-druid-middlemanager-var'
+
+  common-apache-druid-historical-var:
+    name: 'common-apache-druid-historical-var'
+
+  common-apache-druid-broker-var:
+    name: 'common-apache-druid-broker-var'
+
+  common-apache-druid-coordinator-var:
+    name: 'common-apache-druid-coordinator-var'
+
+  common-apache-druid-router-var:
+    name: 'common-apache-druid-router-var'
+
+  common-apache-druid-shared:
+    name: 'common-apache-druid-shared'
+
+
+services:
+
+  apache_druid_coordinator:
+    image: apache/druid:${APACHE_DRUID_IMAGE_TAG}
+    depends_on: 
+      - zookeeper
+      - postgres
+    command:
+      - coordinator
+    env_file:
+      - .envs/apache-druid.env
+    volumes:
+      - common-apache-druid-shared:/opt/shared
+      - common-apache-druid-coordinator-var:/opt/druid/var
+    networks:
+      common-net:
+        aliases:
+          - common-apache-druid-coordinator
+
+  apache_druid_broker:
+    image: apache/druid:${APACHE_DRUID_IMAGE_TAG}
+    depends_on: 
+      - zookeeper
+      - postgres
+      - apache_druid_coordinator
+    command:
+      - broker
+    env_file:
+      - .envs/apache-druid.env
+    volumes:
+      - common-apache-druid-broker-var:/opt/druid/var
+    networks:
+      common-net:
+        aliases:
+          - common-apache-druid-broker
+
+  apache_druid_historical:
+    image: apache/druid:${APACHE_DRUID_IMAGE_TAG}
+    depends_on: 
+      - zookeeper
+      - postgres
+      - apache_druid_coordinator
+    command:
+      - historical
+    env_file:
+      - .envs/apache-druid.env
+    volumes:
+      - common-apache-druid-shared:/opt/shared
+      - common-apache-druid-historical-var:/opt/druid/var
+    networks:
+      common-net:
+        aliases:
+          - common-apache-druid-historical
+
+  apache_druid_middlemanager:
+    image: apache/druid:${APACHE_DRUID_IMAGE_TAG}
+    depends_on: 
+      - zookeeper
+      - postgres
+      - apache_druid_coordinator
+    command:
+      - middleManager
+    env_file:
+      - .envs/apache-druid.env
+    volumes:
+      - common-apache-druid-shared:/opt/shared
+      - common-apache-druid-middlemanager-var:/opt/druid/var
+    networks:
+      common-net:
+        aliases:
+          - common-apache-druid-middlemanager
+
+  apache_druid_router:
+    image: apache/druid:${APACHE_DRUID_IMAGE_TAG}
+    depends_on:
+      - zookeeper
+      - postgres
+      - apache_druid_coordinator
+    command:
+      - router
+    env_file:
+      - .envs/apache-druid.env
+    volumes:
+      - common-apache-druid-router-var:/opt/druid/var
+    networks:
+      common-net:
+        aliases:
+          - common-apache-druid-router

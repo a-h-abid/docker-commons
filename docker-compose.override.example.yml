@@ -30,6 +30,11 @@ services:
     ports:
       - ${ELASTICSEARCH_PUBLISH_PORT}:9200
 
+  fluentd:
+    ports:
+      - ${FLUENTD_PUBLISH_PORT}:24224
+      - ${FLUENTD_PUBLISH_PORT}:24224/udp
+
   grafana:
     ports:
       - ${GRAFANA_PUBLISH_PORT}:3000
@@ -134,6 +139,33 @@ services:
       - 443:443
       - 8080:8080
 
+  postgres:
+    ports:
+      - ${POSTGRES_PUBLISH_PORT}:5432
+    volumes:
+      - common-postgres-data:/var/lib/postgresql/data
+
   zookeeper:
     ports:
       - ${ZOOKEEPER_PUBLISH_PORT}:2181
+
+  apache_druid_coordinator:
+    ports:
+      - ${APACHE_DRUID_COORDINATOR_PUBLISH_PORT}:8081
+
+  apache_druid_broker:
+    ports:
+      - ${APACHE_DRUID_BROKER_PUBLISH_PORT}:8082
+
+  apache_druid_historical:
+    ports:
+      - ${APACHE_DRUID_HISTORICAL_PUBLISH_PORT}:8083
+
+  apache_druid_middlemanager:
+    ports:
+      - ${APACHE_DRUID_MIDDLEMANAGER_PUBLISH_PORT}:8091
+      - ${APACHE_DRUID_MIDDLEMANAGER_PUBLISH_PORT_RANGE}:8100-8105
+
+  apache_druid_router:
+    ports:
+      - ${APACHE_DRUID_ROUTER_PUBLISH_PORT}:8888
