@@ -169,3 +169,7 @@ services:
   apache_druid_router:
     ports:
       - ${APACHE_DRUID_ROUTER_PUBLISH_PORT}:8888
+
+  jenkins:
+    ports:
+      - ${JENKINS_PUBLISH_PORT}:8080

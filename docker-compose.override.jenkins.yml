@@ -1,0 +1,16 @@
+volumes:
+  jenkins:
+    name: 'jenkins'
+
+services:
+
+  jenkins:
+    image: jenkins/jenkins:${JENKINS_IMAGE_TAG}
+    env_file:
+      - .envs/jenkins.env
+    volumes:
+      - jenkins:/var/jenkins_home
+    networks:
+      common-net:
+        aliases:
+          - common-jenkins
