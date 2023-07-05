@@ -1,0 +1,17 @@
+volumes:
+
+  common-mongo-data:
+    name: 'common-mongo-data'
+
+services:
+
+  mongo:
+    image: mongo:${MONGO_IMAGE_TAG}
+    container_name: ${COMPOSE_PROJECT_NAME}-mongo
+    env_file:
+      - .envs/mongo.env
+    restart: unless-stopped
+    networks:
+      common-net:
+        aliases:
+          - common-mongo
