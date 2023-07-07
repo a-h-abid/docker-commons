@@ -35,6 +35,7 @@ Traefik             | traefik         |                     | traefik
 Volume Backup       | volume-backup   |                     |
 Volume Restore      | volume-restore  |                     |
 Postgres            | postgres        |                     | common-postgres
+Mongo               | mongo           |                     | common-mongo
 
 **Note**: The following services will not work in Windows Host Machine. You will have to use it inside WSL2 Distribution.
 * NFS Server

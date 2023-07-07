@@ -173,3 +173,9 @@ services:
   jenkins:
     ports:
       - ${JENKINS_PUBLISH_PORT}:8080
+
+  mongo:
+    ports:
+      - ${MONGO_PUBLISH_PORT}:27017
+    volumes:
+      - common-mongo-data:/data/db
