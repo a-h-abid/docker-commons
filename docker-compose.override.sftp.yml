@@ -1,14 +1,12 @@
 # Use root/example as user/password credentials
-version: '3.7'
-
 services:
 
   sftp:
       image: atmoz/sftp
       volumes:
-          - /home/abrar/sftp-zone:/home/foo/upload
+          - ${SFTP_VOLUME_DATA_DIR}:/home/foo/upload
       ports:
-          - "8422:22"
+          - ${SFTP_PUBLISH_PORT:-8422}:22
       # command: foo:pass:1001
       command: foo:pass:::upload
       networks:
