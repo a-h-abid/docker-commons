@@ -1,0 +1,17 @@
+# Use root/example as user/password credentials
+version: '3.7'
+
+services:
+
+  sftp:
+      image: atmoz/sftp
+      volumes:
+          - /home/abrar/sftp-zone:/home/foo/upload
+      ports:
+          - "8422:22"
+      # command: foo:pass:1001
+      command: foo:pass:::upload
+      networks:
+        common-net:
+          aliases:
+            - common-sftp
