@@ -7,7 +7,6 @@ services:
           - ${SFTP_VOLUME_DATA_DIR}:/home/foo/upload
       ports:
           - ${SFTP_PUBLISH_PORT:-8422}:22
-      # command: foo:pass:1001
       command: foo:pass:::upload
       networks:
         common-net:
