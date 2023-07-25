@@ -5,6 +5,7 @@
 *.sublime-workspace
 /nbproject
 /*.code-workspace
+/sftp-data
 
 .DS_Store
 
