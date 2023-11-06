@@ -1,0 +1,56 @@
+## DEFAULT SETTINGS ARE NOT MEANT TO BE TAKEN STRAIGHT INTO PRODUCTION
+## see https://www.rabbitmq.com/configure.html for further information
+## on configuring RabbitMQ
+##
+## Example conf file: https://github.com/rabbitmq/rabbitmq-server/blob/main/deps/rabbit/docs/rabbitmq.conf.example
+
+## allow access to the guest user from anywhere on the network
+## https://www.rabbitmq.com/access-control.html#loopback-users
+## https://www.rabbitmq.com/production-checklist.html#users
+##
+loopback_users.guest = false
+
+## Send all logs to stdout/TTY. Necessary to see logs when running via
+## a container
+##
+log.console = true
+
+## Listeners
+##
+listeners.tcp.default = 5672
+# listeners.ssl.default = 5671
+
+## SSL / TLS
+## Generate Self-Signed Cert: https://www.rabbitmq.com/ssl.html#automated-certificate-generation-transcript
+## If the "server_key.pem" file fails to read due to permission, change its modifier to read by others.
+##
+ssl_options.cacertfile           = /etc/ssl/certs/rabbitmq/ca_certificate.pem
+ssl_options.certfile             = /etc/ssl/certs/rabbitmq/server_certificate.pem
+ssl_options.keyfile              = /etc/ssl/certs/rabbitmq/server_key.pem
+ssl_options.verify               = verify_none
+ssl_options.fail_if_no_peer_cert = false
+
+# =======================================
+# Management section
+# =======================================
+
+## HTTP listener and embedded Web server settings.
+## See https://rabbitmq.com/management.html for details.
+##
+management.tcp.port = 15672
+management.tcp.ip   = 0.0.0.0
+
+# management.tcp.shutdown_timeout   = 7000
+# management.tcp.max_keepalive      = 120
+# management.tcp.idle_timeout       = 120
+# management.tcp.inactivity_timeout = 120
+# management.tcp.request_timeout    = 120
+# management.tcp.compress           = true
+
+## HTTPS listener settings.
+## See https://rabbitmq.com/management.html and https://rabbitmq.com/ssl.html for details.
+##
+# management.ssl.port       = 15671
+# management.ssl.cacertfile = /path/to/ca_certificate.pem
+# management.ssl.certfile   = /path/to/server_certificate.pem
+# management.ssl.keyfile    = /path/to/server_key.pem

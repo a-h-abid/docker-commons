@@ -126,6 +126,9 @@ services:
   rabbitmq:
     ports:
       - ${RABBITMQ_PUBLISH_PORT}:15672
+    # volumes:
+    #   - ./rabbitmq/rabbitmq.conf:/etc/rabbitmq/conf.d/10-defaults.conf
+    #   - ./.commons/certs/rabbitmq:/etc/ssl/certs/rabbitmq
 
   blackfire:
     ports:
