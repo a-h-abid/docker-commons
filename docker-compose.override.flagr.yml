@@ -1,0 +1,15 @@
+services:
+
+  flagr:
+    image: ${COMPOSE_PROJECT_NAME}_flagr:${FLAGR_IMAGE_TAG}
+    container_name: ${COMPOSE_PROJECT_NAME}-flagr
+    build:
+      context: ${DOCKER_BUILD_CONTEXT_DIR}
+      dockerfile: flagr/flagr.Dockerfile
+    env_file:
+      - .envs/flagr.env
+    restart: unless-stopped
+    networks:
+      common-net:
+        aliases:
+          - common-flagr
