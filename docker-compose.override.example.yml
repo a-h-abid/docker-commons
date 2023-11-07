@@ -187,4 +187,4 @@ services:
     ports:
       - ${FLAGR_PUBLISH_PORT}:18000
     volumes:
-      - ./.volume-backups/flagr_db:/data/db
+      - ./flagr/flagr_db:/data/db
