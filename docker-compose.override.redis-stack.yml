@@ -1,0 +1,16 @@
+volumes:
+  common-redis-stack:
+    name: 'common-redis-stack'
+
+services:
+
+  redis-stack:
+    image: redis/redis-stack:${REDIS_STACK_IMAGE_TAG}
+    env_file:
+      - .envs/redis-stack.env
+    networks:
+      common-net:
+        aliases:
+          - common-redis-stack
+    volumes:
+      - common-redis-stack:/data

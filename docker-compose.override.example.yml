@@ -123,6 +123,10 @@ services:
     ports:
       - ${REDISEARCH_SLAVE_PUBLISH_PORT}:6379
 
+  redis-stack:
+    ports:
+      - ${REDIS_STACK_PUBLISH_PORT}:6379
+
   rabbitmq:
     ports:
       - ${RABBITMQ_PUBLISH_PORT}:15672
