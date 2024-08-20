@@ -14,29 +14,34 @@ I have tested it mostly in a Linux environment, but I also tried to add some sup
 Name                | In Compose      | Require Image Build | Network Alias
 --------------------|-----------------|---------------------|---------------
 Adminer             | adminer         |                     |
+Blackfire           | blackfire       |                     | common-blackfire
 Cassandra           | cassandra       |                     | common-cassandra
 ElasticSearch       | elasticsearch   | Yes                 | common-elasticsearch
+Flagr               | flagr           | Yes                 | common-flagr
 Grafana             | grafana         |                     |
-Jaeger              | grafana         |                     | common-jaeger
+Jaeger              | jaeger          |                     | common-jaeger
+Jenkins             | jenkins         |                     | common-jenkins
 Kibana              | kibana          | Yes                 |
+MailDev             | maildev         |                     | common-maildev
 Mailhog             | mailhog         |                     | common-mailhog
 MinIO               | minio           |                     | common-minio
 MinIO Client (MC)   | minio-client    |                     |
+Mongo               | mongo           |                     | common-mongo
 MySQL               | mysql           |                     | common-mysql
 NFS Server          | nfs-server      |                     |
 OpenLDAP            | ldap            |                     | common-ldap
 Oracle              | oracle          | Yes                 | common-oracle
+Portainer           | portainer       |                     |
+Postgres            | postgres        |                     | common-postgres
 RabbitMQ            | rabbitmq        |                     | common-rabbitmq
 Redis               | redis           |                     | common-redis
 Redis Commander     | redis-commander |                     |
 Redis Sentinel      | redis-sentinel  |                     | common-redis-sentinel
 RediSearch          | redisearch      | Yes                 | common-redisearch
+SFTP                | sftp            |                     | common-sftp
 Traefik             | traefik         |                     | traefik
 Volume Backup       | volume-backup   |                     |
 Volume Restore      | volume-restore  |                     |
-Postgres            | postgres        |                     | common-postgres
-Mongo               | mongo           |                     | common-mongo
-Flagr               | flagr           | Yes                 | common-flagr
 
 **Note**: The following services will not work in Windows Host Machine. You will have to use it inside WSL2 Distribution.
 * NFS Server
@@ -44,8 +49,9 @@ Flagr               | flagr           | Yes                 | common-flagr
 
 ## Tested Docker Version
 
-- Docker Engine v20.10+
-- Docker Compose v1.29+
+- Docker Engine v20.10+ / Docker Desktop v4.0+
+- Docker Compose v2.7+ (Use `docker compose` command)
+    - or v1.29+ (Use `docker-compose` command)
 
 
 ## Setup Process
@@ -64,30 +70,30 @@ Flagr               | flagr           | Yes                 | common-flagr
     * Remove any service sections you will not use.
     * Modify any settings you want to add or remove as you need.
 1. Files in `.envs/{name}.env`, update them as you need.
-1. Run `docker-compose pull` to pull/download all the images. Sometimes it will stop due to network error, just re-run it.
+1. Run `docker compose pull` to pull/download all the images. Sometimes it will stop due to network error, just re-run it.
 1. Run `docker network create common-net`. We will use this network to connect internally from our applications.
 1. (Optional) If you want to use Traefik, run `docker network create common-traefik-net`. We will use this network to serve web requests using domain names to our application's web server.
-1. (Optional) If you are using any of the services that require image to build, run `docker-compose build <service-name>` to build those images.
+1. (Optional) If you are using any of the services that require image to build, run `docker compose build <service-name>` to build those images.
 
 
 ## Running Services
 
-* Run all services quickly by `docker-compose up -d` or...
-* Run specific services only by `docker-compose up -d <service1> <service2> ...`
-    * Ex. `docker-compose up -d adminer mysql`
+* Run all services quickly by `docker compose up -d` or...
+* Run specific services only by `docker compose up -d <service1> <service2> ...`
+    * Ex. `docker compose up -d adminer mysql`
 
 
 ## Checking Services Status
 
-* Check services status by `docker-compose ps`.
-* If need to check logs, run `docker-compose logs --tail=100 <service-name>`.
+* Check services status by `docker compose ps`.
+* If need to check logs, run `docker compose logs --tail=100 <service-name>`.
 
 
 ## Stoping Services
 
-* Stop all services quickly by `docker-compose down` or...
-* Stop specific services only by `docker-compose rm -sf <service1> <service2> ...`
-    * Ex. `docker-compose rm -sf adminer mysql`
+* Stop all services quickly by `docker compose down` or...
+* Stop specific services only by `docker compose rm -sf <service1> <service2> ...`
+    * Ex. `docker compose rm -sf adminer mysql`
 
 
 ## General Usage in Applications
