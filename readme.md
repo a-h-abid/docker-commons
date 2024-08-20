@@ -58,7 +58,7 @@ Volume Restore      | volume-restore  |                     |
 
 1. Open a terminal or command prompt.
 1. Git clone the project to a path and `cd` to it. If possible open the directory in an IDE.
-1. You will have to create files from example files. You can simply run the `copy-examples.sh` (Linux) / `copy-examples.bat` (Windows) file to auto-create them or create them manually as below by copying them. Special note: **DO NOT DELETE EXAMPLE FILES**. These are kept for reference.
+1. You will have to create files from example files. You can simply run the `copy-examples.sh` (Linux) / `copy-examples.bat` (Windows) / `bash copy-examples.sh` (MacOS) file to auto-create them or create them manually as below by copying them. Special note: **DO NOT DELETE EXAMPLE FILES**. These are kept for reference.
     * .env.example -> .env
     * docker-compose.override.example.yml -> docker-compose.override.yml
     * .envs/{name}.example.env -> .envs/{name}.env
