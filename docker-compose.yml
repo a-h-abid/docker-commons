@@ -1,4 +1,3 @@
-
 networks:
   common-net:
     external: true
