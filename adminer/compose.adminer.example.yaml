@@ -1,0 +1,9 @@
+services:
+  adminer:
+    image: 'adminer:${ADMINER_IMAGE_TAG:-latest}'
+    env_file:
+      - .env
+    networks:
+      - common-net
+    ports:
+      - 127.0.0.1:${ADMINER_PUBLISH_PORT:-8080}:8080
