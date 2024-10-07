@@ -14,7 +14,7 @@ services:
         aliases:
           - common-redis-slave
     # ports:
-    #   - 127.0.0.1:${REDIS_PUBLISH_PORT:-6380}:6379
+    #   - 127.0.0.1:${REDIS_SLAVE_PUBLISH_PORT:-6380}:6379
     volumes:
       - common-redis-slave:/bitnami/redis/data
       # - ./data:/bitnami/redis/data
