@@ -1,0 +1,15 @@
+volumes:
+  common-redis-insight:
+    name: 'common-redis-insight'
+
+services:
+  redis:
+    image: redis/redisinsight:${REDIS_INSIGHT_IMAGE_TAG:-2.58.0}
+    env_file:
+      - .env
+    networks:
+      - common-net
+    ports:
+      - 127.0.0.1:${REDIS_INSIGHT_PUBLISH_PORT:-5540}:5540
+    volumes:
+      - common-redis-insight:/data
