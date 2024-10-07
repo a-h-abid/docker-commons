@@ -1,0 +1,18 @@
+volumes:
+  common-redis:
+    name: 'common-redis'
+
+services:
+  redis:
+    image: bitnami/redis:${REDIS_IMAGE_TAG:-7.4.1}
+    env_file:
+      - .env
+    networks:
+      common-net:
+        aliases:
+          - common-redis
+    # ports:
+    #   - 127.0.0.1:${REDIS_PUBLISH_PORT:-6379}:6379
+    volumes:
+      - common-redis:/bitnami/redis/data
+      # - ./data:/bitnami/redis/data
