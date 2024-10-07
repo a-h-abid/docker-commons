@@ -10,12 +10,10 @@
 .env
 docker-compose.override.yaml
 docker-compose.override.yml
-compose.yml
-compose.yaml
-compose.*.yaml
-compose.*.yml
-!compose.*.example.yaml
-!compose.*.example.yml
+compose.*yaml
+compose.*yml
+!compose.*example.yaml
+!compose.*example.yml
 
 # Main directories ignored for Data Store
 /sftp-data

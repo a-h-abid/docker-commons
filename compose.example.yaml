@@ -1,0 +1,6 @@
+networks:
+  common-net:
+    external: true
+
+include:
+  - path: adminer/compose.adminer.yaml
