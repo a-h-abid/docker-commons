@@ -7,6 +7,8 @@ services:
     image: bitnami/redis:${REDIS_IMAGE_TAG:-7.4.1}
     env_file:
       - .env
+    depends_on:
+      - redis
     networks:
       common-net:
         aliases:
