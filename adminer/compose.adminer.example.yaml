@@ -6,4 +6,4 @@ services:
     networks:
       - common-net
     ports:
-      - 127.0.0.1:${ADMINER_PUBLISH_PORT:-8080}:8080
+      - 127.0.0.1:${ADMINER_PUBLISH_PORT:-8000}:8080
