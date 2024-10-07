@@ -1,0 +1,11 @@
+services:
+  nfs-server:
+    image: itsthenetwork/nfs-server-alpine:12
+    privileged: true
+    env_file:
+      - .env
+    tty: true
+    ports:
+      - 127.0.0.1:${NFS_SERVER_PUBLISH_PORT:-2049}:2049
+    volumes:
+      - ./data:/data
