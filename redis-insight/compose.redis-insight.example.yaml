@@ -7,6 +7,8 @@ services:
     image: redis/redisinsight:${REDIS_INSIGHT_IMAGE_TAG:-2.58.0}
     env_file:
       - .env
+    depends_on:
+      - redis
     networks:
       - common-net
     ports:
