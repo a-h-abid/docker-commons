@@ -1,0 +1,25 @@
+volumes:
+  common-mysql-db:
+    name: 'common-mysql-db'
+
+services:
+  mysql:
+    image: 'mysql:${MYSQL_IMAGE_TAG:-9.0.1}'
+    command:
+      - --character-set-server=utf8mb4
+      - --collation-server=utf8mb4_0900_ai_ci
+      - --default-authentication-plugin=mysql_native_password
+      - --local-infile=1
+      - --secure-file-priv=/sqls
+    env_file:
+      - .env
+    networks:
+      common-net:
+        aliases:
+          - common-mysql
+    # ports:
+    #   - 127.0.0.1:${MYSQL_PUBLISH_PORT:-3306}:3306
+    volumes:
+      - common-mysql-db:/var/lib/mysql
+      - ./sqls:/sqls
+      - ./csvs:/csvs
