@@ -1,0 +1,18 @@
+volumes:
+  common-redis-slave:
+    name: 'common-redis-slave'
+
+services:
+  redis-slave:
+    image: bitnami/redis:${REDIS_IMAGE_TAG:-7.4.1}
+    env_file:
+      - .env
+    networks:
+      common-net:
+        aliases:
+          - common-redis-slave
+    # ports:
+    #   - 127.0.0.1:${REDIS_PUBLISH_PORT:-6380}:6379
+    volumes:
+      - common-redis-slave:/bitnami/redis/data
+      # - ./data:/bitnami/redis/data
