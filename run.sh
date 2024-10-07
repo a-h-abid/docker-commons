@@ -3,6 +3,7 @@
 set -e
 
 availableServices=(adminer)
+availableServices+=(mysql)
 availableServices+=(nfs-server)
 availableServices+=(redis)
 availableServices+=(redis-insight)
