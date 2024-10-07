@@ -3,15 +3,20 @@
 set -e
 
 availableServices=(adminer)
-availableServices+=(volumes-bnr)
+availableServices+=(nfs-server)
+availableServices+=(redis)
+availableServices+=(redis-insight)
+availableServices+=(redis-slave)
+availableServices+=(redis-sentiner)
+availableServices+=(traefik)
 
 showServicesList() {
-  local columns=4
+  local columns=6
   local width=20
   local rows=$(( (${#availableServices[@]} + columns - 1) / columns ))
 
-  printf "%s\n" "------------------------------------------"
-  printf "%s %s %s\n" "             " "Services List" "              "
+  printf "%s\n" "=========================================="
+  printf "%s\n" "              Services List               "
   printf "%s\n" "=========================================="
 
   for ((i=0; i<rows; i++)); do
@@ -24,7 +29,7 @@ showServicesList() {
       echo
   done
 
-  printf "%s\n\n" "=========================================="
+  printf "%s\n\n" "------------------------------------------"
 }
 
 showServicesList
