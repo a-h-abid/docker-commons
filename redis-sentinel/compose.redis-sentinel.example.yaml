@@ -1,0 +1,21 @@
+volumes:
+  common-redis-sentinel:
+    name: 'common-redis-sentinel'
+
+services:
+  redis-sentinel:
+    image: bitnami/redis:${REDIS_IMAGE_TAG:-7.4.1}
+    env_file:
+      - .env
+    depends_on:
+      - redis
+      - redis-slave
+    networks:
+      common-net:
+        aliases:
+          - common-redis-sentinel
+    # ports:
+    #   - 127.0.0.1:${REDIS_SENTINEL_PUBLISH_PORT:-26379}:26379
+    volumes:
+      - common-redis-sentinel:/bitnami/redis/data
+      # - ./data:/bitnami/redis/data
