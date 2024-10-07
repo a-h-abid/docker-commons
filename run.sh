@@ -12,7 +12,7 @@ showServicesList() {
 
   printf "%s\n" "------------------------------------------"
   printf "%s %s %s\n" "             " "Services List" "              "
-  printf "%s\n" "========================================="
+  printf "%s\n" "=========================================="
 
   for ((i=0; i<rows; i++)); do
       for ((j=0; j<columns; j++)); do
@@ -24,7 +24,7 @@ showServicesList() {
       echo
   done
 
-  printf "%s\n\n" "========================================="
+  printf "%s\n\n" "=========================================="
 }
 
 showServicesList
