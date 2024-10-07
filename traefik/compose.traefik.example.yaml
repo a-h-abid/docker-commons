@@ -1,0 +1,22 @@
+networks:
+  common-traefik-net:
+    external: true
+
+services:
+  traefik:
+    image: traefik:${TRAEFIK_IMAGE_TAG:-3.1.5}
+    env_file:
+      - .env
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.traefik=true"
+    networks:
+      - common-traefik-net
+    ports:
+      - 127.0.0.1:80:80
+      - 127.0.0.1:443:443
+      - 127.0.0.1:${TRAEFIK_DASHBOARD_PUBLISH_PORT:-8080}:8080
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ./traefik/configuration:/configuration
+      - ./.commons/certs:/certs
