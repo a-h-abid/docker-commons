@@ -1,8 +1,6 @@
 volumes:
   elasticsearch-data:
     driver: local
-  elasticsearch-logs:
-    driver: local
 
 services:
   elasticsearch:
@@ -15,9 +13,11 @@ services:
           - common-elasticsearch
     volumes:
       - elasticsearch-data:/usr/share/elasticsearch/data/
-      - elasticsearch-logs:/usr/share/elasticsearch/logs/
-      - ../.commons/certs/elasticsearch:/usr/share/elasticsearch/config/certificates/elasticsearch
-      - ../.commons/certs/ca:/usr/share/elasticsearch/config/certificates/ca
+      - ./certs:/usr/share/elasticsearch/config/certs
+    deploy:
+      resources:
+        limits:
+          memory: 1GB
     ulimits:
       nofile:
         soft: 65536
@@ -25,8 +25,3 @@ services:
       memlock:
         soft: -1
         hard: -1
-    healthcheck:
-      test: curl --cacert /usr/share/elasticsearch/config/certificates/ca/ca.crt -s https://localhost:9200 > /dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
-      interval: 30s
-      timeout: 10s
-      retries: 5
