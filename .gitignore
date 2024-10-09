@@ -14,6 +14,8 @@ compose.*yaml
 compose.*yml
 !compose.*example.yaml
 !compose.*example.yml
+!compose.networks.yaml
+!compose.networks.yml
 
 # Main directories ignored for Data Store
 /sftp-data
