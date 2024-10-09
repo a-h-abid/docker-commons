@@ -1,0 +1,32 @@
+volumes:
+  elasticsearch-data:
+    driver: local
+  elasticsearch-logs:
+    driver: local
+
+services:
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:${ELASTICSEARCH_KIBANA_IMAGE_TAG:-8.15.2}
+    env_file:
+      - .env
+    networks:
+      common-net:
+        aliases:
+          - common-elasticsearch
+    volumes:
+      - elasticsearch-data:/usr/share/elasticsearch/data/
+      - elasticsearch-logs:/usr/share/elasticsearch/logs/
+      - ../.commons/certs/elasticsearch:/usr/share/elasticsearch/config/certificates/elasticsearch
+      - ../.commons/certs/ca:/usr/share/elasticsearch/config/certificates/ca
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
+      memlock:
+        soft: -1
+        hard: -1
+    healthcheck:
+      test: curl --cacert /usr/share/elasticsearch/config/certificates/ca/ca.crt -s https://localhost:9200 > /dev/null; if [[ $$? == 52 ]]; then echo 0; else echo 1; fi
+      interval: 30s
+      timeout: 10s
+      retries: 5
