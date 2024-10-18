@@ -1,0 +1,20 @@
+volumes:
+  common-mysql-slave:
+    name: 'common-mysql-slave'
+
+services:
+  mysql-slave:
+    image: 'bitnami/mysql:${MYSQL_IMAGE_TAG:-8.4.3}'
+    depends_on:
+      - mysql
+    env_file:
+      - .env
+    networks:
+      common-net:
+        aliases:
+          - common-mysql-slave
+    # ports:
+    #   - 127.0.0.1:${MYSQL_SLAVE_PUBLISH_PORT:-3307}:3306
+    volumes:
+      - common-mysql-slave:/var/lib/mysql
+      - ./my_custom.cnf:/opt/bitnami/mysql/conf/my_custom.cnf:ro
