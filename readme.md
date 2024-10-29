@@ -42,6 +42,7 @@ SFTP                | sftp            |                     | common-sftp
 Traefik             | traefik         |                     | traefik
 Volume Backup       | volume-backup   |                     |
 Volume Restore      | volume-restore  |                     |
+Dragonflydb         | dragonfly       |                     | common-dragonfly
 
 **Note**: The following services will not work in Windows Host Machine. You will have to use it inside WSL2 Distribution.
 * NFS Server

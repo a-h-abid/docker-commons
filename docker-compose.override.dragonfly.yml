@@ -1,0 +1,18 @@
+# Official doc: https://www.dragonflydb.io/docs/getting-started/docker-compose
+volumes:
+  common-dragonfly-db:
+    name: 'common-dragonfly-db'
+
+services:
+
+  dragonfly:
+    image: 'docker.dragonflydb.io/dragonflydb/dragonfly'
+    ulimits:
+      memlock: -1
+    command: ["--requirepass", "${DRAGONFLY_PASSWORD}"]
+    volumes:
+      - common-dragonfly-db:/data
+    networks:
+      common-net:
+        aliases:
+          - common-dragonfly
