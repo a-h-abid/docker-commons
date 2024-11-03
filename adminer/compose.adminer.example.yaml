@@ -3,6 +3,10 @@ services:
     image: 'adminer:${ADMINER_IMAGE_TAG:-4.8.1}'
     env_file:
       - .env
+    deploy:
+      resources:
+        limits:
+          memory: 256MB
     networks:
       - common-net
     ports:
