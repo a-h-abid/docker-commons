@@ -9,7 +9,7 @@ services:
     image: 'docker.dragonflydb.io/dragonflydb/dragonfly'
     ulimits:
       memlock: -1
-    command: ["--requirepass", "${DRAGONFLY_PASSWORD}"]
+    command: ["--requirepass", "${DRAGONFLY_PASSWORD:dragonflypass}"]
     volumes:
       - common-dragonfly-db:/data
     networks:
