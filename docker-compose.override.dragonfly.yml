@@ -7,9 +7,10 @@ services:
 
   dragonfly:
     image: 'docker.dragonflydb.io/dragonflydb/dragonfly'
+    env_file:
+      - .envs/dragonfly.env
     ulimits:
       memlock: -1
-    command: ["--requirepass", "${DRAGONFLY_PASSWORD:dragonflypass}"]
     volumes:
       - common-dragonfly-db:/data
     networks:
