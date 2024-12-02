@@ -12,3 +12,5 @@ elif [[ -f /System/Library/CoreServices/SystemVersion.plist ]]; then
   # If the macOS-specific SystemVersion.plist file exists, it's likely a macOS system
   find .envs -type f | grep -E '[a-z-]+\.example\.env$' | cut -d'.' -f1 | while read prefix; do cp --update=none "${prefix}.example.env" "${prefix}.env"; done
 fi
+
+./rabbitmq/copy-example.sh
