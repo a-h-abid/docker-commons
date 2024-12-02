@@ -16,6 +16,7 @@ Name                | In Compose      | Require Image Build | Network Alias
 Adminer             | adminer         |                     |
 Blackfire           | blackfire       |                     | common-blackfire
 Cassandra           | cassandra       |                     | common-cassandra
+Dragonflydb         | dragonfly       |                     | common-dragonfly
 ElasticSearch       | elasticsearch   | Yes                 | common-elasticsearch
 Flagr               | flagr           | Yes                 | common-flagr
 Grafana             | grafana         |                     |

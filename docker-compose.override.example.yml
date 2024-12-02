@@ -192,3 +192,9 @@ services:
       - ${FLAGR_PUBLISH_PORT}:18000
     volumes:
       - ./flagr/flagr_db:/data/db
+
+  dragonfly:
+    ports:
+      - ${DRAGONFLY_PUBLISH_PORT}:6379
+    volumes:
+      - common-dragonfly-db:/data
