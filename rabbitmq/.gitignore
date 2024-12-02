@@ -1,2 +1,3 @@
 rabbitmq.conf
 !rabbitmq.conf.example
+/data

@@ -1,0 +1,18 @@
+volumes:
+  common-rabbitmq:
+    name: 'common-rabbitmq'
+
+services:
+  rabbitmq:
+    image: rabbitmq:${RABBITMQ_IMAGE_TAG:-3.12.1-management}
+    env_file:
+      - .env
+    networks:
+      common-net:
+        aliases:
+          - common-rabbitmq
+    # ports:
+    #   - 127.0.0.1:${RABBITMQ_PUBLISH_PORT:-15672}:15672
+    volumes:
+      - common-rabbitmq:/var/lib/rabbitmq
+      # - ./data:/var/lib/rabbitmq
