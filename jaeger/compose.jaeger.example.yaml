@@ -3,11 +3,10 @@ volumes:
     name: 'common-jaeger'
 
 services:
-
   jaeger:
-    image: 'jaegertracing/jaeger:${JAEGER_IMAGE_TAG}'
+    image: 'jaegertracing/jaeger:${JAEGER_IMAGE_TAG:-2.1.0}'
     env_file:
-      - .envs/jaeger.env
+      - .env
     networks:
       common-net:
         aliases:
