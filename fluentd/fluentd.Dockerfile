@@ -1,4 +1,4 @@
-ARG FLUENTD_IMAGE_TAG=v1.14-debian-1
+ARG FLUENTD_IMAGE_TAG=v1.18.0-debian-1
 
 FROM fluent/fluentd:${FLUENTD_IMAGE_TAG}
 
