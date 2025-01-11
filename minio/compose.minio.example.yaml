@@ -1,0 +1,52 @@
+volumes:
+  common-minio-data:
+    name: 'common-minio-data'
+  common-minio-client-config:
+    name: 'common-minio-client-config'
+
+services:
+  minio:
+    image: quay.io/minio/minio:${MINIO_IMAGE_TAG:-RELEASE.2024-12-18T13-15-44Z}
+    env_file:
+      - .env
+    command:
+      - minio
+      - server
+      - /data
+      - --console-address
+      - ":${MINIO_CONSOLE_PUBLISH_PORT:-9001}"
+    networks:
+      common-net:
+        aliases:
+          - common-minio
+    ports:
+      - ${MINIO_API_PUBLISH_PORT:-9000}:9000
+      - ${MINIO_CONSOLE_PUBLISH_PORT:-9001}:${MINIO_CONSOLE_PUBLISH_PORT:-9001}
+    volumes:
+      - common-minio-data:/data
+    deploy:
+      resources:
+        limits:
+          memory: 1GB
+
+  minio-client:
+    image: quay.io/minio/mc:${MINIO_CLIENT_IMAGE_TAG}
+    command: ["--version"]
+    depends_on:
+      - minio
+    networks:
+      - common-net
+    volumes:
+      - common-minio-client-config:/root/.mc
+
+  minio-nginx:
+    image: nginx:${MINIO_NGINX_IMAGE_TAG:-alpine}
+    restart: "no"
+    depends_on:
+      - minio
+    networks:
+      - common-net
+    volumes:
+      - ./nginx/conf.d:/etc/nginx/conf.d
+      - ./nginx/nginx.conf:/etc/nginx/nginx.conf
+      - ./nginx/certs:/etc/nginx/certs

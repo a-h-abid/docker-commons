@@ -8,6 +8,8 @@
 
 # Main files ignored for freedom
 .env
+*.env
+!*.example.env
 docker-compose.override.yaml
 docker-compose.override.yml
 compose.*yaml
