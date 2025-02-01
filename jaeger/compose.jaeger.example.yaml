@@ -4,12 +4,14 @@ volumes:
 
 services:
   jaeger:
-    image: 'jaegertracing/jaeger:${JAEGER_IMAGE_TAG:-2.1.0}'
+    image: 'jaegertracing/jaeger:${JAEGER_IMAGE_TAG:-2.2.0}'
     env_file:
       - .env
     networks:
       common-net:
         aliases:
           - common-jaeger
+    ports:
+      - 127.0.0.1:${JAEGER_PUBLISH_PORT:-16686}:16686
     volumes:
       - common-jaeger:/tmp
