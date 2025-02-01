@@ -15,3 +15,7 @@ services:
       - 127.0.0.1:${JAEGER_PUBLISH_PORT:-16686}:16686
     volumes:
       - common-jaeger:/tmp
+    deploy:
+      resources:
+        limits:
+          memory: '8G'
