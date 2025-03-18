@@ -1,0 +1,19 @@
+volumes:
+  common-redis-stack:
+    name: 'common-redis-stack'
+
+services:
+  redis-stack:
+    image: redis/redis-stack:${REDIS_STACK_IMAGE_TAG:-7.4.0-v3}
+    env_file:
+      - .env
+    networks:
+      common-net:
+        aliases:
+          - common-redis-stack
+    # ports:
+    #   - 127.0.0.1:${REDIS_STACK_SERVER_PUBLISH_PORT:-6379}:6379
+    #   - 127.0.0.1:${REDIS_STACK_REDISINSIGHT_PUBLISH_PORT:-8001}:8001
+    volumes:
+      - common-redis-stack:/data
+      # - ./data:/data
