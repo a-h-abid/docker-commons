@@ -11,6 +11,7 @@ errors=0
 declare -A deps
 deps["docker-compose.override.apache-druid.yml"]="docker-compose.override.apache-zookeeper.yml,docker-compose.override.postgres.yml"
 deps["docker-compose.override.redis-sentinel.yml"]="docker-compose.override.redis.yml"
+deps["docker-compose.override.volumes.yml"]="docker-compose.override.mysql.yml"
 
 # Validate each docker-compose override file individually with the base file
 for file in docker-compose.override.*.yml; do
