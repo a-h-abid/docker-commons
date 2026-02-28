@@ -6,12 +6,24 @@ echo "=== Validating Docker Compose Files ==="
 
 errors=0
 
-# Map of compose files that need additional dependency files
-# Format: "file=dep1,dep2,..."
-declare -A deps
-deps["docker-compose.override.apache-druid.yml"]="docker-compose.override.apache-zookeeper.yml,docker-compose.override.postgres.yml"
-deps["docker-compose.override.redis-sentinel.yml"]="docker-compose.override.redis.yml"
-deps["docker-compose.override.volumes.yml"]="docker-compose.override.mysql.yml"
+# Return comma-separated dependency files for a given compose override file.
+# Using a case statement for Bash 3.2 compatibility (macOS default shell).
+get_deps() {
+  case "$1" in
+    docker-compose.override.apache-druid.yml)
+      echo "docker-compose.override.apache-zookeeper.yml,docker-compose.override.postgres.yml"
+      ;;
+    docker-compose.override.redis-sentinel.yml)
+      echo "docker-compose.override.redis.yml"
+      ;;
+    docker-compose.override.volumes.yml)
+      echo "docker-compose.override.mysql.yml"
+      ;;
+    *)
+      echo ""
+      ;;
+  esac
+}
 
 # Validate each docker-compose override file individually with the base file
 for file in docker-compose.override.*.yml; do
@@ -25,8 +37,9 @@ for file in docker-compose.override.*.yml; do
   compose_files="-f docker-compose.yml"
 
   # Add dependency files if needed
-  if [ -n "${deps[$file]}" ]; then
-    IFS=',' read -ra dep_files <<< "${deps[$file]}"
+  file_deps=$(get_deps "$file")
+  if [ -n "$file_deps" ]; then
+    IFS=',' read -ra dep_files <<< "$file_deps"
     for dep in "${dep_files[@]}"; do
       compose_files="$compose_files -f $dep"
     done
