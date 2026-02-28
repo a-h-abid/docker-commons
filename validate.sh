@@ -41,10 +41,14 @@ for file in docker-compose.override.*.yml; do
   compose_files="$compose_files -f $file"
 
   # shellcheck disable=SC2086
-  if docker compose $compose_files config --quiet 2>/dev/null; then
+  tmp_err=$(mktemp)
+  if docker compose $compose_files config --quiet 2>"$tmp_err"; then
     echo "[OK]"
+    rm -f "$tmp_err"
   else
     echo "[FAIL]"
+    cat "$tmp_err"
+    rm -f "$tmp_err"
     errors=$((errors + 1))
   fi
 done
