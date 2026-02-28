@@ -76,73 +76,107 @@ check_service() {
     esac
 }
 
+# Function to resolve the published port for a service
+resolve_port() {
+    local service_name="$1"
+    local default_port="$2"
+    local mapped
+
+    # Try to get the published port from docker compose
+    mapped=$(docker compose port "$service_name" "$default_port" 2>/dev/null | head -n 1 || true)
+    if [ -n "$mapped" ]; then
+        # docker compose port output format is usually "0.0.0.0:12345" or "[::]:12345"
+        echo "${mapped##*:}"
+        return 0
+    fi
+
+    # Fall back to default port
+    echo "$default_port"
+}
+
 # Check common services
 # Format: service_name check_type target port
 
 # Databases
 if echo "$running_services" | grep -q "mysql"; then
-    check_service "mysql" "tcp" "" "3306" || true
+    mysql_port=$(resolve_port "mysql" "3306")
+    check_service "mysql" "tcp" "" "$mysql_port" || true
 fi
 
 if echo "$running_services" | grep -q "postgres"; then
-    check_service "postgres" "tcp" "" "5432" || true
+    postgres_port=$(resolve_port "postgres" "5432")
+    check_service "postgres" "tcp" "" "$postgres_port" || true
 fi
 
 if echo "$running_services" | grep -q "mongo"; then
-    check_service "mongo" "tcp" "" "27017" || true
+    mongo_port=$(resolve_port "mongo" "27017")
+    check_service "mongo" "tcp" "" "$mongo_port" || true
 fi
 
 if echo "$running_services" | grep -q "cassandra"; then
-    check_service "cassandra" "tcp" "" "9042" || true
+    cassandra_port=$(resolve_port "cassandra" "9042")
+    check_service "cassandra" "tcp" "" "$cassandra_port" || true
 fi
 
 # Cache & Message Queues
 if echo "$running_services" | grep -q "redis"; then
-    check_service "redis" "tcp" "" "6379" || true
+    redis_port=$(resolve_port "redis" "6379")
+    check_service "redis" "tcp" "" "$redis_port" || true
 fi
 
 if echo "$running_services" | grep -q "rabbitmq"; then
-    check_service "rabbitmq" "http" "/api/health/checks/alarms" "15672" || true
+    # Use TCP check on AMQP port instead of HTTP management API
+    rabbitmq_port=$(resolve_port "rabbitmq" "5672")
+    check_service "rabbitmq" "tcp" "" "$rabbitmq_port" || true
 fi
 
 # Search & Analytics
 if echo "$running_services" | grep -q "elasticsearch"; then
-    check_service "elasticsearch" "http" "/_cluster/health" "9200" || true
+    elasticsearch_port=$(resolve_port "elasticsearch" "9200")
+    check_service "elasticsearch" "http" "/_cluster/health" "$elasticsearch_port" || true
 fi
 
 if echo "$running_services" | grep -q "kibana"; then
-    check_service "kibana" "http" "/api/status" "5601" || true
+    kibana_port=$(resolve_port "kibana" "5601")
+    check_service "kibana" "http" "/api/status" "$kibana_port" || true
 fi
 
 # Development Tools
 if echo "$running_services" | grep -q "adminer"; then
-    check_service "adminer" "http" "/" "8000" || true
+    adminer_port=$(resolve_port "adminer" "8000")
+    check_service "adminer" "http" "/" "$adminer_port" || true
 fi
 
 if echo "$running_services" | grep -q "mailhog"; then
-    check_service "mailhog" "http" "/" "8025" || true
+    mailhog_port=$(resolve_port "mailhog" "8025")
+    check_service "mailhog" "http" "/" "$mailhog_port" || true
 fi
 
 if echo "$running_services" | grep -q "maildev"; then
-    check_service "maildev" "http" "/" "1080" || true
+    maildev_port=$(resolve_port "maildev" "1080")
+    check_service "maildev" "http" "/" "$maildev_port" || true
 fi
 
 if echo "$running_services" | grep -q "portainer"; then
-    check_service "portainer" "http" "/api/status" "9443" || true
+    portainer_port=$(resolve_port "portainer" "9443")
+    check_service "portainer" "http" "/api/status" "$portainer_port" || true
 fi
 
 # Storage
 if echo "$running_services" | grep -q "minio"; then
-    check_service "minio" "http" "/minio/health/live" "9000" || true
+    minio_port=$(resolve_port "minio" "9000")
+    check_service "minio" "http" "/minio/health/live" "$minio_port" || true
 fi
 
 # Observability
 if echo "$running_services" | grep -q "grafana"; then
-    check_service "grafana" "http" "/api/health" "3000" || true
+    grafana_port=$(resolve_port "grafana" "3000")
+    check_service "grafana" "http" "/api/health" "$grafana_port" || true
 fi
 
 if echo "$running_services" | grep -q "jaeger"; then
-    check_service "jaeger" "http" "/" "16686" || true
+    jaeger_port=$(resolve_port "jaeger" "16686")
+    check_service "jaeger" "http" "/" "$jaeger_port" || true
 fi
 
 echo ""

@@ -74,7 +74,7 @@ else
 fi
 
 # Check for empty passwords
-if grep "PASSWORD=\s*$" .env > /dev/null 2>&1; then
+if grep "PASSWORD=[[:space:]]*$" .env > /dev/null 2>&1; then
     echo -e "${RED}✗ Empty password variables found in .env${NC}"
     ERRORS=$((ERRORS + 1))
 fi
