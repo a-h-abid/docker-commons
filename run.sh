@@ -8,7 +8,7 @@ availableServices+=(nfs-server)
 availableServices+=(redis)
 availableServices+=(redis-insight)
 availableServices+=(redis-slave)
-availableServices+=(redis-sentiner)
+availableServices+=(redis-sentinel)
 availableServices+=(traefik)
 
 showServicesList() {

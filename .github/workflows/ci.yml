@@ -1,0 +1,58 @@
+name: CI
+
+on:
+  push:
+    branches: [main, master]
+  pull_request:
+    branches: [main, master]
+
+permissions:
+  contents: read
+
+jobs:
+  lint-yaml:
+    name: Lint YAML
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install yamllint
+        run: pip install yamllint
+
+      - name: Lint YAML files
+        run: yamllint -c .yamllint.yml .
+
+  lint-shell:
+    name: Lint Shell Scripts
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Lint shell scripts
+        run: find . -name "*.sh" -not -path "./.git/*" -print0 | xargs -0 shellcheck --severity=error
+
+  validate-compose:
+    name: Validate Docker Compose
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup environment
+        run: |
+          cp .env.example .env
+          cp docker-compose.override.example.yml docker-compose.override.yml
+          find .envs/ -type f -name "*.example.env" | while read f; do
+            target="${f/.example.env/.env}"
+            cp "$f" "$target"
+          done
+
+      - name: Create Docker networks
+        run: |
+          docker network create common-net
+          docker network create common-traefik-net
+
+      - name: Validate compose files
+        run: bash validate.sh
