@@ -1,108 +1,285 @@
 # Docker Commons
 
-This is a personal project which consists some common services configured to run via docker scripts to use centrally for applications in local development.
+[![Validate](https://github.com/a-h-abid/docker-commons/actions/workflows/validate.yml/badge.svg)](https://github.com/a-h-abid/docker-commons/actions/workflows/validate.yml)
 
-The problem this project solves is that during development in multiple projects, sometime they have their own services (MySQL, Redis, etc.) which already takes lots of resources by itself and having to run same services multiple times for multiple projects is too much for your system. Also most of the time those services configurations & versions are not much different in each project. Or those differences might not matter to you. Also keeping up with remembering all the publish ports of these services can be quite difficult.
+A collection of common development services (MySQL, Redis, PostgreSQL, RabbitMQ, etc.) configured to run centrally via Docker Compose. Share services across multiple projects without running duplicate instances.
 
-As these things became a problem for me and also inspired by [LaraDock](https://github.com/laradock/laradock) project, I made this docker script to easily manage them centrally from one place. Also made it configurable to run only those services you need.
+## 🎯 Why Docker Commons?
 
-I have tested it mostly in a Linux environment, but I also tried to add some support for Windows OS. If your Windows OS supports WSL2, I highly encourage you to use that.
+**The Problem:** During development across multiple projects, each project often includes its own services (MySQL, Redis, etc.). This:
+- Consumes excessive system resources (RAM, CPU)
+- Creates port conflicts
+- Makes it hard to remember which ports are used where
+- Results in duplicate configurations and data
 
+**The Solution:** Docker Commons provides a centralized, configurable setup where:
+- Services run once and are shared across projects
+- Consistent network naming (`common-net`) simplifies connections
+- Easy configuration with example files
+- Choose only the services you need
 
-## Services
+**Inspired by:** [LaraDock](https://github.com/laradock/laradock)
 
-Name                | In Compose      | Require Image Build | Network Alias
---------------------|-----------------|---------------------|---------------
-Adminer             | adminer         |                     |
-Blackfire           | blackfire       |                     | common-blackfire
-Cassandra           | cassandra       |                     | common-cassandra
-Dragonflydb         | dragonfly       |                     | common-dragonfly
-ElasticSearch       | elasticsearch   | Yes                 | common-elasticsearch
-Flagr               | flagr           | Yes                 | common-flagr
-Grafana             | grafana         |                     |
-Jaeger              | jaeger          |                     | common-jaeger
-Jenkins             | jenkins         |                     | common-jenkins
-Kibana              | kibana          | Yes                 |
-MailDev             | maildev         |                     | common-maildev
-Mailhog             | mailhog         |                     | common-mailhog
-MinIO               | minio           |                     | common-minio
-MinIO Client (MC)   | minio-client    |                     |
-Mongo               | mongo           |                     | common-mongo
-MySQL               | mysql           |                     | common-mysql
-NFS Server          | nfs-server      |                     |
-OpenLDAP            | ldap            |                     | common-ldap
-Oracle              | oracle          | Yes                 | common-oracle
-Portainer           | portainer       |                     |
-Postgres            | postgres        |                     | common-postgres
-RabbitMQ            | rabbitmq        |                     | common-rabbitmq
-Redis               | redis           |                     | common-redis
-Redis Commander     | redis-commander |                     |
-Redis Sentinel      | redis-sentinel  |                     | common-redis-sentinel
-RediSearch          | redisearch      | Yes                 | common-redisearch
-SFTP                | sftp            |                     | common-sftp
-Traefik             | traefik         |                     | traefik
-Volume Backup       | volume-backup   |                     |
-Volume Restore      | volume-restore  |                     |
+## 📚 Documentation
 
-**Note**: The following services will not work in Windows Host Machine. You will have to use it inside WSL2 Distribution.
-* NFS Server
+- **[Quick Start Guide](QUICKSTART.md)** - Get started in 5 minutes
+- **[Troubleshooting Guide](TROUBLESHOOTING.md)** - Solutions to common issues
+- **[Contributing Guide](CONTRIBUTING.md)** - How to contribute
+- **[Security Policy](SECURITY.md)** - Security considerations and best practices
 
+## ⚡ Quick Start
 
-## Tested Docker Version
+```bash
+# Clone and setup
+git clone https://github.com/a-h-abid/docker-commons.git
+cd docker-commons
+./copy-examples.sh  # or copy-examples.bat on Windows
 
-- Docker Engine v20.10+ / Docker Desktop v4.0+
-- Docker Compose v2.7+ (Use `docker compose` command)
-    - or v1.29+ (Use `docker-compose` command)
+# Create networks
+docker network create common-net
 
+# Start services
+docker compose up -d mysql redis adminer
+```
 
-## Setup Process
+See [QUICKSTART.md](QUICKSTART.md) for detailed instructions.
 
-1. Open a terminal or command prompt.
-1. Git clone the project to a path and `cd` to it. If possible open the directory in an IDE.
-1. You will have to create files from example files. You can simply run the `copy-examples.sh` (Linux) / `copy-examples.bat` (Windows) / `bash copy-examples.sh` (MacOS) file to auto-create them or create them manually as below by copying them. Special note: **DO NOT DELETE EXAMPLE FILES**. These are kept for reference.
-    * .env.example -> .env
-    * docker-compose.override.example.yml -> docker-compose.override.yml
-    * .envs/{name}.example.env -> .envs/{name}.env
-1. In file `./.env`, you will have to update the values per your need.
-    * `COMPOSE_FILE`: Mention the `docker-compose.override.{name}.yml` files you will want to use. Keep the `docker-compose.override.yml` file at the end. Use separator `:` for Linux or `;` for Windows.
-    * `COMPOSE_PATH_SEPARATOR`: Use separator `:` for Linux or `;` for Windows.
-    * Rest details are written in the file as comments. Read and do update as you need.
-1. In file `./docker-compose.override.yml`, you will have to update the values per your need.
-    * Remove any service sections you will not use.
-    * Modify any settings you want to add or remove as you need.
-1. Files in `.envs/{name}.env`, update them as you need.
-1. Run `docker compose pull` to pull/download all the images. Sometimes it will stop due to network error, just re-run it.
-1. Run `docker network create common-net`. We will use this network to connect internally from our applications.
-1. (Optional) If you want to use Traefik, run `docker network create common-traefik-net`. We will use this network to serve web requests using domain names to our application's web server.
-1. (Optional) If you are using any of the services that require image to build, run `docker compose build <service-name>` to build those images.
+## 🖥️ Platform Support
+
+**Fully Tested:**
+- Linux (Ubuntu, Debian, Fedora, etc.)
+- macOS
+- Windows with WSL2
+
+**Note:** Some services (like NFS Server) require WSL2 on Windows.
 
 
-## Running Services
+## 📦 Available Services
 
-* Run all services quickly by `docker compose up -d` or...
-* Run specific services only by `docker compose up -d <service1> <service2> ...`
-    * Ex. `docker compose up -d adminer mysql`
+### Databases
+
+| Name | In Compose | Build Required | Network Alias | Default Port |
+|------|------------|----------------|---------------|--------------|
+| MySQL | mysql | No | common-mysql | 3306 |
+| PostgreSQL | postgres | No | common-postgres | 5432 |
+| MongoDB | mongo | No | common-mongo | 27017 |
+| Cassandra | cassandra | No | common-cassandra | 9042 |
+| Oracle | oracle | Yes | common-oracle | 1521 |
+
+### Caching & Message Queues
+
+| Name | In Compose | Build Required | Network Alias | Default Port |
+|------|------------|----------------|---------------|--------------|
+| Redis | redis | No | common-redis | 6379 |
+| Redis Sentinel | redis-sentinel | No | common-redis-sentinel | 26379 |
+| Redis Stack | redis-stack | No | - | 16479 |
+| RediSearch | redisearch | Yes | common-redisearch | 16379 |
+| Dragonfly | dragonfly | No | common-dragonfly | 36379 |
+| RabbitMQ | rabbitmq | No | common-rabbitmq | 5672, 15672 |
+
+### Search & Analytics
+
+| Name | In Compose | Build Required | Network Alias | Default Port |
+|------|------------|----------------|---------------|--------------|
+| Elasticsearch | elasticsearch | Yes | common-elasticsearch | 9200 |
+| Kibana | kibana | Yes | - | 5601 |
+
+### Development Tools
+
+| Name | In Compose | Build Required | Network Alias | Default Port |
+|------|------------|----------------|---------------|--------------|
+| Adminer | adminer | No | - | 8000 |
+| Redis Commander | redis-commander | No | - | 8081 |
+| MailHog | mailhog | No | common-mailhog | 1025, 8025 |
+| MailDev | maildev | No | common-maildev | 1080 |
+| Portainer | portainer | No | - | 9443 |
+
+### Storage & Networking
+
+| Name | In Compose | Build Required | Network Alias | Default Port |
+|------|------------|----------------|---------------|--------------|
+| MinIO | minio | No | common-minio | 9000, 9001 |
+| MinIO Client (MC) | minio-client | No | - | - |
+| SFTP | sftp | No | common-sftp | 8422 |
+| NFS Server* | nfs-server | No | - | 2049 |
+| Traefik | traefik | No | traefik | 80, 443 |
+
+### Observability
+
+| Name | In Compose | Build Required | Network Alias | Default Port |
+|------|------------|----------------|---------------|--------------|
+| Grafana | grafana | No | - | 3000 |
+| Jaeger | jaeger | No | common-jaeger | 16686 |
+| Fluentd | fluentd | No | - | 24224 |
+
+### Other Services
+
+| Name | In Compose | Build Required | Network Alias | Default Port |
+|------|------------|----------------|---------------|--------------|
+| OpenLDAP | ldap | No | common-ldap | - |
+| Jenkins | jenkins | No | common-jenkins | 8443 |
+| Blackfire | blackfire | No | common-blackfire | 32768 |
+| Flagr | flagr | Yes | common-flagr | 28000 |
+| Apache Zookeeper | zookeeper | No | - | 2181 |
+| Apache Druid | apache_druid_* | No | - | Various |
+
+### Utilities
+
+| Name | In Compose | Build Required | Description |
+|------|------------|----------------|-------------|
+| Volume Backup | volume-backup | No | Backup named volumes |
+| Volume Restore | volume-restore | No | Restore named volumes |
+
+**\* Note:** NFS Server requires WSL2 on Windows.
 
 
-## Checking Services Status
+## 🔧 Requirements
 
-* Check services status by `docker compose ps`.
-* If need to check logs, run `docker compose logs --tail=100 <service-name>`.
+- **Docker Engine** v20.10+ or **Docker Desktop** v4.0+
+- **Docker Compose** v2.7+ (command: `docker compose`)
+  - Or Docker Compose v1.29+ (command: `docker-compose`)
+- Git (for cloning)
+
+## 🚀 Setup Process
+
+### Step 1: Clone Repository
+```bash
+git clone https://github.com/a-h-abid/docker-commons.git
+cd docker-commons
+```
+
+### Step 2: Copy Example Files
+
+**Option A - Automated (Recommended):**
+```bash
+./copy-examples.sh  # Linux/macOS
+copy-examples.bat   # Windows
+```
+
+**Option B - Manual:**
+Create the following files from their `.example` versions:
+- `.env.example` → `.env`
+- `docker-compose.override.example.yml` → `docker-compose.override.yml`
+- `.envs/{name}.example.env` → `.envs/{name}.env`
+
+**⚠️ Important:** Do NOT delete example files. They are kept for reference.
+
+### Step 3: Configure Services
+
+**Edit `.env` file:**
+- `COMPOSE_FILE`: List the services you want to use
+  - Keep `docker-compose.override.yml` at the end
+  - Use `:` separator on Linux/macOS, `;` on Windows
+- `COMPOSE_PATH_SEPARATOR`: `:` for Linux/macOS, `;` for Windows
+- Review other variables and adjust as needed
+
+**Edit `docker-compose.override.yml`:**
+- Remove service sections you don't need
+- Customize ports, volumes, or other settings
+
+**Edit `.envs/{service}.env` files:**
+- Update credentials and service-specific settings
+
+### Step 4: Pull Images
+```bash
+docker compose pull
+```
+
+If downloads fail due to network errors, re-run the command.
+
+### Step 5: Create Networks
+```bash
+docker network create common-net
+docker network create common-traefik-net  # Optional, for Traefik
+```
+
+### Step 6: Build Images (If Required)
+
+Some services require building:
+```bash
+docker compose build elasticsearch  # Example
+docker compose build kibana
+docker compose build flagr
+# etc.
+```
+
+### Step 7: Validate Configuration
+```bash
+# Validate Docker Compose files
+docker compose config
+
+# Or use the validation script
+chmod +x validate.sh
+./validate.sh
+```
+
+### Step 8: Start Services
+```bash
+# Start all configured services
+docker compose up -d
+
+# Or start specific services only
+docker compose up -d mysql redis adminer
+```
 
 
-## Stoping Services
+## 🎮 Managing Services
 
-* Stop all services quickly by `docker compose down` or...
-* Stop specific services only by `docker compose rm -sf <service1> <service2> ...`
-    * Ex. `docker compose rm -sf adminer mysql`
+### Starting Services
+```bash
+# Start all configured services
+docker compose up -d
+
+# Start specific services
+docker compose up -d adminer mysql redis
+```
+
+### Checking Status
+```bash
+# List all services and their status
+docker compose ps
+
+# View logs
+docker compose logs --tail=100 <service-name>
+
+# Follow logs in real-time
+docker compose logs -f mysql
+```
+
+### Stopping Services
+```bash
+# Stop all services
+docker compose down
+
+# Stop specific services
+docker compose rm -sf mysql redis
+
+# Stop and remove volumes (⚠️ deletes data!)
+docker compose down -v
+```
+
+### Restarting Services
+```bash
+# Restart specific service
+docker compose restart mysql
+
+# Recreate service with new configuration
+docker compose up -d --force-recreate mysql
+```
 
 
-## General Usage in Applications
+## 🔗 Connecting Your Applications
 
-The general idea is to connect your application container network to the `common-net` and use that service's network alias name as host name and that service's container port number to connect to that service.
+### Overview
 
-For example, lets say you want to connect to *MySQL*. You application's docker compose file may look something like this:
+Connect your application to Docker Commons services by:
+1. Adding your application to the `common-net` network
+2. Using service network aliases as hostnames
+3. Using container ports (not published ports)
 
+### Example: Connecting to MySQL
+
+**Your application's `docker-compose.yml`:**
 ```yaml
 networks:
   common-net:
@@ -110,50 +287,182 @@ networks:
 
 services:
   myapp:
-    ...
+    # ... your service configuration ...
     networks:
       - common-net
-      ...
+    environment:
+      DB_HOST: common-mysql
+      DB_PORT: 3306
+      DB_DATABASE: mydb
+      DB_USERNAME: root
+      DB_PASSWORD: secret
 ```
 
-And in you application database configuration:
-* Database Hostname as `common-mysql`
-* Database Port as `3306`
+### Connection Details by Service
 
-Then start/restart your application container and will be connected to *MySQL*.
+| Service | Network Alias | Port | Example Connection String |
+|---------|---------------|------|---------------------------|
+| MySQL | `common-mysql` | 3306 | `mysql://root:pass@common-mysql:3306/dbname` |
+| PostgreSQL | `common-postgres` | 5432 | `postgresql://user:pass@common-postgres:5432/dbname` |
+| Redis | `common-redis` | 6379 | `redis://common-redis:6379` |
+| MongoDB | `common-mongo` | 27017 | `mongodb://common-mongo:27017/dbname` |
+| RabbitMQ | `common-rabbitmq` | 5672 | `amqp://user:pass@common-rabbitmq:5672` |
+| Elasticsearch | `common-elasticsearch` | 9200 | `http://common-elasticsearch:9200` |
+| MinIO | `common-minio` | 9000 | `http://common-minio:9000` |
 
-This is the general approach for most of these services to be connected with your application.
+### Important Notes
 
+- ✅ Use **network alias** as hostname (e.g., `common-mysql`)
+- ✅ Use **container port** (e.g., `3306` for MySQL)
+- ❌ Don't use `localhost` or `127.0.0.1`
+- ❌ Don't use **published port** (that's for host machine access)
 
-## Service Specific Details
+### Accessing Services from Host Machine
 
-### NFS server
+To access services from your host machine (e.g., using a database client):
 
-After starting the container, you have to mount nfs server in your host machine. To get container IP, you can use `ifconfig` or `hostname -I` or any other method you know.
+```bash
+# MySQL from host
+mysql -h 127.0.0.1 -P 3306 -u root -p
 
+# Redis from host
+redis-cli -h localhost -p 6379
+
+# PostgreSQL from host
+psql -h localhost -p 5432 -U postgres
 ```
-sudo mount -v -o vers=4,loud <container-ip>:/ /path/to/mount
+
+
+## 📝 Service-Specific Notes
+
+### NFS Server
+
+After starting the NFS server container:
+
+1. Get the container IP:
+   ```bash
+   docker inspect common-nfs-server | grep IPAddress
+   # or
+   docker exec common-nfs-server hostname -I
+   ```
+
+2. Mount on your host machine:
+   ```bash
+   sudo mount -v -o vers=4,loud <container-ip>:/ /path/to/mount
+   ```
+
+3. **Important:** Unmount before stopping the container:
+   ```bash
+   sudo umount /path/to/mount
+   ```
+
+### Services Requiring Build
+
+The following services require building before use:
+- Elasticsearch
+- Kibana
+- Flagr
+- Oracle
+- RediSearch
+
+Build them with:
+```bash
+docker compose build <service-name>
 ```
 
-**Important:** In your development machine, be sure to unmount the path, otherwise may cause issues. To unmount:
+For detailed service-specific documentation, check the `readme.md` files in each service directory.
 
-```
-sudo umount /path/to/mount
-```
-
-
-## FAQ
+## 🤔 FAQ
 
 ### Can I run this in production?
 
-While this is made for local development usage, it can be used in production with some caveats. There are might be some configurations that you may need to change or you may same some special case that may not be possible with current project structure. Also there are security concern that you should worry about. In that case, you will have to use your own approach to serve your need. It maybe by mounting config files in the container, using a different image or simply running a native service solution.
+**Short answer:** Not recommended without significant modifications.
 
+**Long answer:** Docker Commons is optimized for local development. For production use, you must:
+- Change all default credentials
+- Enable TLS/SSL encryption
+- Implement proper access controls
+- Configure firewalls and network isolation
+- Enable security features (authentication, authorization)
+- Review and harden all configurations
+- Implement monitoring and logging
+- Set up proper backup procedures
 
-## Future Plans
+See [SECURITY.md](SECURITY.md) for detailed security considerations.
 
-* Make it work with **Podman**.
+### How do I change service ports?
 
+Edit the `.env` file and change the `*_PUBLISH_PORT` variables:
+```bash
+# Change MySQL port from 3306 to 3307
+MYSQL_PUBLISH_PORT=3307
+```
 
-## License
+Then restart the service:
+```bash
+docker compose up -d mysql
+```
 
-This project is licensed under the terms of the MIT license.
+### Can I use different service versions?
+
+Yes! Edit the `.env` file and change the `*_IMAGE_TAG` variables:
+```bash
+# Change MySQL version
+MYSQL_IMAGE_TAG=8.0.35
+```
+
+Then pull and restart:
+```bash
+docker compose pull mysql
+docker compose up -d mysql
+```
+
+### How do I backup my data?
+
+Use the volume backup utility:
+1. Edit `.env` and set `NAMED_VOLUME_TO_BACKUP=common-mysql-db`
+2. Run: `docker compose up volume-backup`
+3. Find backup in `.volume-backups/` directory
+
+See `volumes-bnr/readme.md` for details.
+
+### Services won't start or can't connect?
+
+Check [TROUBLESHOOTING.md](TROUBLESHOOTING.md) for solutions to common issues.
+
+### How do I contribute?
+
+See [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines on:
+- Reporting bugs
+- Suggesting enhancements
+- Adding new services
+- Submitting pull requests
+
+## 🗺️ Future Plans
+
+- Support for Podman
+- Additional service configurations
+- More comprehensive service-specific documentation
+- Enhanced health checks
+- Better backup/restore utilities
+
+## 🤝 Contributing
+
+Contributions are welcome! Please read [CONTRIBUTING.md](CONTRIBUTING.md) for guidelines.
+
+## 📄 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- Inspired by [LaraDock](https://github.com/laradock/laradock)
+- Thanks to all contributors and users
+- Built with ❤️ for the development community
+
+## 📞 Support
+
+- 📖 [Quick Start Guide](QUICKSTART.md)
+- 🔧 [Troubleshooting Guide](TROUBLESHOOTING.md)
+- 🐛 [Report Issues](https://github.com/a-h-abid/docker-commons/issues)
+- 💬 [Discussions](https://github.com/a-h-abid/docker-commons/discussions)

@@ -1,0 +1,175 @@
+name: Validate Docker Compose
+
+on:
+  push:
+    branches: [ main, master, develop ]
+  pull_request:
+    branches: [ main, master, develop ]
+  workflow_dispatch:
+
+jobs:
+  validate-compose:
+    name: Validate Docker Compose Files
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Copy example files
+        run: |
+          chmod +x copy-examples.sh
+          ./copy-examples.sh
+
+      - name: Validate main docker-compose.yml
+        run: docker compose -f docker-compose.yml config > /dev/null
+
+      - name: Validate all override files
+        run: |
+          for file in docker-compose.override.*.yml; do
+            if [ "$file" != "docker-compose.override.example.yml" ]; then
+              echo "Validating $file..."
+              docker compose -f docker-compose.yml -f "$file" config > /dev/null
+            fi
+          done
+
+      - name: Validate complete configuration
+        run: docker compose config > /dev/null
+
+      - name: Check for shell script errors
+        run: |
+          # Check bash scripts for syntax errors
+          for script in $(find . -name "*.sh" -type f); do
+            echo "Checking $script..."
+            bash -n "$script"
+          done
+
+  validate-documentation:
+    name: Validate Documentation
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for broken links in README
+        uses: gaurav-nelson/github-action-markdown-link-check@v1
+        with:
+          use-quiet-mode: 'yes'
+          config-file: '.github/workflows/markdown-link-check-config.json'
+        continue-on-error: true
+
+      - name: Validate markdown files
+        run: |
+          # Install markdownlint
+          npm install -g markdownlint-cli
+
+          # Run markdownlint on all markdown files
+          markdownlint '**/*.md' --ignore node_modules --config .github/workflows/markdownlint-config.json || true
+
+  check-security:
+    name: Security Checks
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Check for exposed secrets
+        run: |
+          # Check that no actual .env files are committed
+          if [ -f .env ] || find .envs -name "*.env" -not -name "*.example.env" | grep -q .; then
+            echo "Error: Found non-example environment files in repository!"
+            echo "Please ensure only .example.env files are committed."
+            exit 1
+          fi
+
+      - name: Verify gitignore patterns
+        run: |
+          # Verify important files are in .gitignore
+          required_ignores=(".env" "*.env" "docker-compose.override.yml" "docker-compose.override.yaml")
+
+          for pattern in "${required_ignores[@]}"; do
+            if ! grep -q "$pattern" .gitignore; then
+              echo "Warning: Pattern '$pattern' not found in .gitignore"
+            fi
+          done
+
+      - name: Check for default passwords in example files
+        run: |
+          # This is informational only - example files are expected to have default values
+          echo "Scanning for common default passwords..."
+          if grep -r "password.*password\|password.*admin\|password.*root" --include="*.example.*" --include="*.yml" --include="*.yaml" . ; then
+            echo "Found default passwords in files above. This is expected for example files."
+            echo "Users should change these values in their actual .env files."
+          fi
+
+  test-setup-script:
+    name: Test Setup Scripts
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Test copy-examples.sh
+        run: |
+          chmod +x copy-examples.sh
+          ./copy-examples.sh
+
+          # Verify files were created
+          if [ ! -f .env ]; then
+            echo "Error: .env file was not created"
+            exit 1
+          fi
+
+          if [ ! -f docker-compose.override.yml ]; then
+            echo "Error: docker-compose.override.yml was not created"
+            exit 1
+          fi
+
+          # Check if at least some .envs files were created
+          env_count=$(find .envs -name "*.env" -not -name "*.example.env" | wc -l)
+          if [ "$env_count" -lt 5 ]; then
+            echo "Error: Not enough .env files were created in .envs directory"
+            exit 1
+          fi
+
+          echo "Setup script test passed!"
+
+  test-network-creation:
+    name: Test Network Setup
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create required networks
+        run: |
+          docker network create common-net
+          docker network create common-traefik-net
+
+          # Verify networks exist
+          docker network ls | grep common-net
+          docker network ls | grep common-traefik-net
+
+      - name: Test basic service
+        run: |
+          chmod +x copy-examples.sh
+          ./copy-examples.sh
+
+          # Try to start a simple service (redis)
+          docker compose up -d redis
+
+          # Give it a moment to start
+          sleep 5
+
+          # Check if service is running
+          docker compose ps redis
+
+          # Cleanup
+          docker compose down -v
