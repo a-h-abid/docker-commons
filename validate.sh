@@ -57,17 +57,23 @@ echo ""
 
 # Validate that all .example.env files exist
 echo "=== Validating Example Env Files ==="
-for file in .envs/*.example.env; do
-  name=$(basename "$file" .example.env)
-  printf "Checking %-50s " ".envs/$name.example.env"
-  if [ -f "$file" ]; then
-    echo "[OK]"
-  else
-    echo "[MISSING]"
-    errors=$((errors + 1))
-  fi
-done
+env_example_files=(.envs/*.example.env)
 
+if [ ! -e "${env_example_files[0]}" ]; then
+  echo "No .envs/*.example.env files found [MISSING]"
+  errors=$((errors + 1))
+else
+  for file in "${env_example_files[@]}"; do
+    name=$(basename "$file" .example.env)
+    printf "Checking %-50s " ".envs/$name.example.env"
+    if [ -f "$file" ]; then
+      echo "[OK]"
+    else
+      echo "[MISSING]"
+      errors=$((errors + 1))
+    fi
+  done
+fi
 echo ""
 
 if [ "$errors" -gt 0 ]; then
