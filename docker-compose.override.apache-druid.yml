@@ -23,7 +23,7 @@ services:
 
   apache_druid_coordinator:
     image: apache/druid:${APACHE_DRUID_IMAGE_TAG}
-    depends_on: 
+    depends_on:
       - zookeeper
       - postgres
     command:
@@ -40,7 +40,7 @@ services:
 
   apache_druid_broker:
     image: apache/druid:${APACHE_DRUID_IMAGE_TAG}
-    depends_on: 
+    depends_on:
       - zookeeper
       - postgres
       - apache_druid_coordinator
@@ -57,7 +57,7 @@ services:
 
   apache_druid_historical:
     image: apache/druid:${APACHE_DRUID_IMAGE_TAG}
-    depends_on: 
+    depends_on:
       - zookeeper
       - postgres
       - apache_druid_coordinator
@@ -75,7 +75,7 @@ services:
 
   apache_druid_middlemanager:
     image: apache/druid:${APACHE_DRUID_IMAGE_TAG}
-    depends_on: 
+    depends_on:
       - zookeeper
       - postgres
       - apache_druid_coordinator

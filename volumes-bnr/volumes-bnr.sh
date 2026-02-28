@@ -40,17 +40,17 @@ while getopts "hv:" opt; do
   esac
 done
 
-if [ -z "$2"]; then
+if [ -z "$2" ]; then
   echo "BACKUP_FILE is missing."
   exit 1
 fi
 
-if [ -z "$3"]; then
+if [ -z "$3" ]; then
   echo "VOLUME_NAME is missing."
   exit 1
 fi
 
-if [ -z "$4"]; then
+if [ -z "$4" ]; then
   echo "CONTAINER_PATH is missing."
   exit 1
 fi
