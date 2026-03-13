@@ -145,7 +145,7 @@ make up SERVICES="mysql redis"    # Start only what you need
 | `make help` | Show all commands |
 
 
-## Setup Process (Manual)
+## Setup Without Make
 
 If you prefer not to use `make`, follow these manual steps:
 
