@@ -113,7 +113,41 @@ Below is the full list of services included in this project. The **Compose Name*
     - or v1.29+ (Use `docker-compose` command)
 
 
-## Setup Process
+## Quick Start
+
+A `Makefile` is provided so you can manage everything with short commands. Run `make help` to see all available targets.
+
+```bash
+git clone https://github.com/a-h-abid/docker-commons.git
+cd docker-commons
+
+make setup                        # Copy config files & create Docker networks
+# Edit .env and .envs/*.env to taste
+make pull                         # Pull service images
+make up SERVICES="mysql redis"    # Start only what you need
+```
+
+| Command | What it does |
+|---------|-------------|
+| `make setup` | Copy example configs and create Docker networks |
+| `make up` | Start all configured services |
+| `make up SERVICES="mysql redis"` | Start specific services only |
+| `make down` | Stop and remove all services |
+| `make stop SERVICES="redis"` | Stop specific services |
+| `make restart` | Restart services |
+| `make ps` | Show running services |
+| `make logs SERVICES="mysql"` | Follow service logs |
+| `make pull` | Pull latest images |
+| `make build SERVICES="elasticsearch"` | Build custom images |
+| `make validate` | Validate compose files |
+| `make list` | List all available services |
+| `make clean` | Stop everything, remove volumes and networks |
+| `make help` | Show all commands |
+
+
+## Setup Process (Manual)
+
+If you prefer not to use `make`, follow these manual steps:
 
 1. Open a terminal or command prompt.
 1. Clone this repository and `cd` into the directory. Opening it in an IDE is helpful.
@@ -152,24 +186,23 @@ Below is the full list of services included in this project. The **Compose Name*
 
 * Start all services:
     ```bash
-    docker compose up -d
+    make up            # or: docker compose up -d
     ```
 * Start specific services only:
     ```bash
-    docker compose up -d <service1> <service2> ...
+    make up SERVICES="adminer mysql"   # or: docker compose up -d adminer mysql
     ```
-    Example: `docker compose up -d adminer mysql`
 
 
 ## Checking Services Status
 
 * View running services:
     ```bash
-    docker compose ps
+    make ps            # or: docker compose ps
     ```
 * View logs for a specific service:
     ```bash
-    docker compose logs --tail=100 <service-name>
+    make logs SERVICES="mysql"         # or: docker compose logs --tail=100 mysql
     ```
 
 
@@ -177,13 +210,12 @@ Below is the full list of services included in this project. The **Compose Name*
 
 * Stop all services:
     ```bash
-    docker compose down
+    make down          # or: docker compose down
     ```
 * Stop specific services only:
     ```bash
-    docker compose rm -sf <service1> <service2> ...
+    make stop SERVICES="adminer mysql" # or: docker compose rm -sf adminer mysql
     ```
-    Example: `docker compose rm -sf adminer mysql`
 
 
 ## General Usage in Applications
