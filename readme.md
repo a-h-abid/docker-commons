@@ -15,6 +15,26 @@ When working on multiple projects at the same time, each project often comes wit
 
 Inspired by [LaraDock](https://github.com/laradock/laradock).
 
+## Quick Start
+
+**New to Docker Commons?** Get started in minutes with our simplified setup:
+
+```bash
+# 1. Clone and enter the repository
+git clone https://github.com/a-h-abid/docker-commons.git
+cd docker-commons
+
+# 2. Run the interactive setup wizard
+./setup.sh
+
+# 3. Start your services
+./commons.sh start
+
+# 4. Check service status
+./commons.sh status
+```
+
+For detailed instructions, see the [Quick Start Guide](QUICKSTART.md).
 
 ## Documentation
 
@@ -22,6 +42,7 @@ Each service that needs extra setup or has special instructions has its own docu
 
 | Document | Description |
 |----------|-------------|
+| [Quick Start Guide](QUICKSTART.md) | **Get started in minutes** - Simplified setup and usage guide |
 | [Adminer Docs](adminer/readme.md) | Database management UI notes |
 | [Cassandra DSE Docs](cassandra-dse/readme.md) | DataStax Enterprise configuration details |
 | [Elasticsearch Docs](elasticsearch/readme.md) | Password setup, certificate generation |
@@ -115,6 +136,27 @@ Below is the full list of services included in this project. The **Compose Name*
 
 ## Setup Process
 
+### Option 1: Interactive Setup (Recommended)
+
+The easiest way to get started:
+
+```bash
+./setup.sh
+```
+
+This interactive wizard will:
+- Check prerequisites (Docker, Docker Compose)
+- Create configuration files
+- Let you select services with preset options
+- Create Docker networks automatically
+- Optionally pull and build images
+
+See the [Quick Start Guide](QUICKSTART.md) for detailed walkthrough.
+
+### Option 2: Manual Setup
+
+If you prefer more control over the setup process:
+
 1. Open a terminal or command prompt.
 1. Clone this repository and `cd` into the directory. Opening it in an IDE is helpful.
 1. Create configuration files from the provided examples. Run the appropriate script for your OS (see [Operating System Notes](#operating-system-notes) above), or copy the files manually. **Do not delete the example files** — they are kept for reference.
@@ -149,6 +191,20 @@ Below is the full list of services included in this project. The **Compose Name*
 
 
 ## Running Services
+
+### Using Commons CLI (Simplified)
+
+```bash
+./commons.sh start              # Start all configured services
+./commons.sh start mysql redis  # Start specific services
+./commons.sh stop               # Stop all services
+./commons.sh restart mysql      # Restart a service
+./commons.sh status             # Check service status
+./commons.sh logs mysql         # View service logs
+./commons.sh help               # Show all available commands
+```
+
+### Using Docker Compose Directly
 
 * Start all services:
     ```bash
