@@ -147,6 +147,32 @@ Below is the full list of services included in this project. The **Compose Name*
     docker compose build <service-name>
     ```
 
+### Faster start with `commons.sh` (recommended)
+
+The helper script `./commons.sh` guides you through setup and wraps common commands so you do not have to edit `.env` by hand.
+
+```bash
+# Copy example files, pick a set of services, and set COMPOSE_FILE
+./commons.sh init                          # uses default: adminer mysql redis
+./commons.sh init --services "mysql redis" # pick a custom subset
+./commons.sh init --all                    # include every available service
+
+# Run services with automatic network creation
+./commons.sh up            # start the configured services
+./commons.sh up traefik    # pass through extra compose args if needed
+
+# Day-to-day commands
+./commons.sh ps
+./commons.sh logs mysql
+./commons.sh down
+```
+
+What it does:
+- Copies example `.env` and `.envs/*.example.env` files if they do not exist.
+- Builds the `COMPOSE_FILE` string for the services you select (you can re-run `init` anytime).
+- Creates the required Docker networks (`common-net` and `common-traefik-net` when Traefik is selected).
+- Wraps `docker compose` so you can avoid long `COMPOSE_FILE` strings.
+
 
 ## Running Services
 
