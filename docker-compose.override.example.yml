@@ -198,3 +198,7 @@ services:
       - ${DRAGONFLY_PUBLISH_PORT}:6379
     volumes:
       - common-dragonfly-db:/data
+
+  sonarqube:
+    ports:
+      - ${SONARQUBE_PUBLISH_PORT}:9000

@@ -33,5 +33,6 @@ COPY .envs\redis-slave.example.env .\.envs\redis-slave.env
 COPY .envs\redis-stack.example.env .\.envs\redis-stack.env
 COPY .envs\redisearch.example.env .\.envs\redisearch.env
 COPY .envs\redisearch-slave.example.env .\.envs\redisearch-slave.env
+COPY .envs\sonarqube.example.env .\.envs\sonarqube.env
 COPY .envs\traefik.example.env .\.envs\traefik.env
 COPY .envs\tz.example.env .\.envs\tz.env

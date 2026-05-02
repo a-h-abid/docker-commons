@@ -30,6 +30,7 @@ Each service that needs extra setup or has special instructions has its own docu
 | [MySQL Docs](mysql/readme.md) | MySQL references and links |
 | [MySQL Slave Docs](mysql-slave/readme.md) | MySQL replication setup |
 | [NFS Server Docs](nfs-server/readme.md) | NFS mount/unmount instructions |
+| [SonarQube Docs](sonarqube/readme.md) | SonarQube service notes |
 | [Volume Backup & Restore Docs](volumes-bnr/readme.md) | Backup and restore Docker volumes |
 
 
@@ -71,6 +72,7 @@ Below is the full list of services included in this project. The **Compose Name*
 | Redis Sentinel | redis-sentinel | High-availability monitor for Redis | | | common-redis-sentinel |
 | Redis Stack | redis-stack | Redis with built-in search, JSON, and time-series modules | | | |
 | RediSearch | redisearch | Redis with full-text search capabilities | | Yes | common-redisearch |
+| SonarQube | sonarqube | Code quality and security analysis platform | [Docs](sonarqube/readme.md) | | common-sonarqube |
 | SFTP | sftp | Secure file transfer server | | | common-sftp |
 | Traefik | traefik | Reverse proxy and load balancer for routing HTTP traffic | | | traefik |
 | Volume Backup | volume-backup | Utility to back up Docker named volumes | [Docs](volumes-bnr/readme.md) | | |

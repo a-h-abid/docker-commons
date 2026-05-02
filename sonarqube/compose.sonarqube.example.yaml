@@ -1,0 +1,24 @@
+volumes:
+  common-sonarqube-data:
+    name: 'common-sonarqube-data'
+  common-sonarqube-extensions:
+    name: 'common-sonarqube-extensions'
+  common-sonarqube-logs:
+    name: 'common-sonarqube-logs'
+
+services:
+  sonarqube:
+    image: sonarqube:${SONARQUBE_IMAGE_TAG:-26.4.0.121862-community}
+    env_file:
+      - .env
+    networks:
+      common-net:
+        aliases:
+          - common-sonarqube
+    ports:
+      - 127.0.0.1:${SONARQUBE_PUBLISH_PORT:-19000}:9000
+    volumes:
+      - common-sonarqube-data:/opt/sonarqube/data
+      - common-sonarqube-extensions:/opt/sonarqube/extensions
+      - common-sonarqube-logs:/opt/sonarqube/logs
+    restart: unless-stopped

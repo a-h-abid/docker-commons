@@ -1,3 +1,4 @@
 include:
   - path: compose.networks.yaml
   - path: adminer/compose.adminer.yaml
+  - path: sonarqube/compose.sonarqube.yaml
