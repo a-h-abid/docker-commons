@@ -10,7 +10,7 @@ volumes:
 services:
 
   sonarqube:
-    image: sonarqube:${SONARQUBE_IMAGE_TAG:-26.4.0.121862-community}
+    image: sonarqube:${SONARQUBE_IMAGE_TAG:-26.6.0.123539-community}
     env_file:
       - .envs/sonarqube.env
     networks:
