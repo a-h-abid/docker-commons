@@ -6,6 +6,8 @@ volumes:
     name: 'common-sonarqube-extensions'
   common-sonarqube-logs:
     name: 'common-sonarqube-logs'
+  common-sonarqube-temp:
+    name: 'common-sonarqube-temp'
 
 services:
 
