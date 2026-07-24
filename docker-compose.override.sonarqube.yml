@@ -21,4 +21,5 @@ services:
       - common-sonarqube-data:/opt/sonarqube/data
       - common-sonarqube-extensions:/opt/sonarqube/extensions
       - common-sonarqube-logs:/opt/sonarqube/logs
+    stop_grace_period: 3600s
     restart: unless-stopped
