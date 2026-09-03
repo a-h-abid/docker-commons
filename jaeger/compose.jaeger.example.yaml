@@ -4,7 +4,7 @@ volumes:
 
 services:
   jaeger:
-    image: 'jaegertracing/jaeger:${JAEGER_IMAGE_TAG:-2.6.0}'
+    image: 'jaegertracing/jaeger:${JAEGER_IMAGE_TAG:-2.20.0}'
     env_file:
       - .env
     networks:
